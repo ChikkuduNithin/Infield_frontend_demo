@@ -1,0 +1,609 @@
+<mxfile host="app.diagrams.net" modified="2026-10-12T07:15:00.000Z" agent="Mozilla/5.0" version="24.7.17" type="device">
+  <diagram id="mari-app-workflows" name="MARI Field Monitoring - Comprehensive Flowchart & Workflows">
+    <mxGraphModel dx="2800" dy="1800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4200" pageHeight="3200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ========================================== -->
+        <!-- HEADER & TITLE BLOCK                       -->
+        <!-- ========================================== -->
+        <mxCell id="title_block" value="&lt;b style='font-size: 24px; color: #0F172A;'&gt;MARI Field Monitoring Application — Complete System Architecture &amp;amp; User Workflows&lt;/b&gt;&lt;br&gt;&lt;span style='font-size: 14px; color: #475569;'&gt;Comprehensive Flowchart showing all Features, Decision Points, Data Flows, and Role Lifecycle (Volunteer Mobile, Manager Mobile, Admin Web)&lt;br&gt;ITC Mission Sunehra Kal &amp;amp; Modern Architect Rural India (MARI NGO Partnership)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;strokeWidth=2;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="3950" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================== -->
+        <!-- LEGEND CONTAINER                           -->
+        <!-- ========================================== -->
+        <mxCell id="legend_box" value="Diagram Color &amp;amp; Element Legend" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;rounded=1;fillColor=#0F172A;fontColor=#FFFFFF;strokeColor=#1E293B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="170" width="400" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_1" value="🟢 Volunteer Mobile Features &amp;amp; Actions (Emerald Green)" style="text;strokeColor=none;fillColor=#ECFDF5;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#065F46;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="28" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_2" value="🔵 Manager Mobile Features &amp;amp; Supervision (ITC Blue)" style="text;strokeColor=none;fillColor=#EFF6FF;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#1E40AF;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="70" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_3" value="🟣 Admin Web Features &amp;amp; Governance (Indigo / Purple)" style="text;strokeColor=none;fillColor=#EEF2FF;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#3730A3;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="112" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_4" value="🟡 Decision Branch / Conditional Check (Amber Rhombus)" style="text;strokeColor=none;fillColor=#FEF3C7;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#92400E;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="154" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_5" value="🔴 Final Attendance &amp;amp; Day Close-out (Rose / Red)" style="text;strokeColor=none;fillColor=#FEF2F2;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#991B1B;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="196" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_6" value="⚪ Data Store / LocalStorage &amp;amp; Sync Engine" style="text;strokeColor=none;fillColor=#F1F5F9;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#1E293B;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="238" width="400" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_7" value="📑 Reports &amp;amp; Exportable Output (CSV Engine)" style="text;strokeColor=none;fillColor=#F8FAFC;align=left;verticalAlign=middle;spacingLeft=12;fontColor=#475569;fontStyle=1;fontSize=11;" vertex="1" parent="legend_box">
+          <mxGeometry y="280" width="400" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================== -->
+        <!-- PRESENTATION SWITCHER & LANDING BOX        -->
+        <!-- ========================================== -->
+        <mxCell id="pres_switcher_box" value="Persistent Demo &amp;amp; Presentation Layer" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;rounded=1;fillColor=#1E293B;fontColor=#FFFFFF;strokeColor=#334155;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="400" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="pres_nav" value="&lt;b&gt;DemoNavbar (Sticky Top Bar)&lt;/b&gt;&lt;br&gt;• One-click Role Switcher (Volunteer | Manager | Admin)&lt;br&gt;• Device Frame Mode Toggle (390×844 Phone Bezel vs Fluid)&lt;br&gt;• Reset Demo Data Button (Cleans localStorage state)&lt;br&gt;• Active User Pill (Rajesh / Vikram / Ananya)&lt;br&gt;• Quick link to Screen Showcase Gallery (/showcase)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#F8FAFC;strokeColor=#38BDF8;strokeWidth=1.5;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="pres_switcher_box">
+          <mxGeometry y="30" width="400" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="pres_landing" value="&lt;b&gt;Landing Demo Portal (/ )&lt;/b&gt;&lt;br&gt;• Executive Introduction to ITC Mission Sunehra Kal&lt;br&gt;• 3 Interactive Module Cards with Feature Highlights&lt;br&gt;• Direct Launch Buttons for Stakeholder Roles&lt;br&gt;• Presentation Mode trigger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#F8FAFC;strokeColor=#10B981;strokeWidth=1.5;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="pres_switcher_box">
+          <mxGeometry y="140" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pres_showcase" value="&lt;b&gt;Screen Showcase Gallery (/showcase)&lt;/b&gt;&lt;br&gt;• Visual Catalog of all 21 Built Prototype Screens&lt;br&gt;• Rendered Screen PNG Thumbnails&lt;br&gt;• Role Filtering Tabs (All / Volunteer / Manager / Admin)&lt;br&gt;• Feature Badges &amp;amp; Route Path Readouts&lt;br&gt;• 1-Click &quot;Open Screen&quot; Interactive Prototype Launchers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#F8FAFC;strokeColor=#F59E0B;strokeWidth=1.5;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="pres_switcher_box">
+          <mxGeometry y="240" width="400" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="pres_shots" value="&lt;b&gt;Automated Screenshots Suite&lt;/b&gt;&lt;br&gt;• Playwright Automation Script (scripts/capture-screenshots.js)&lt;br&gt;• 23 High-Resolution Retina PNGs in /screenshots/&lt;br&gt;• Standalone HTML Visual Gallery (screenshots/index.html)&lt;br&gt;• Multi-Viewport Emulation (390×844 Mobile + 1440×900 Web)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#F8FAFC;strokeColor=#A855F7;strokeWidth=1.5;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="pres_switcher_box">
+          <mxGeometry y="360" width="400" height="120" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================================== -->
+        <!-- SWIMLANE 1: VOLUNTEER MOBILE APP WORKFLOW                      -->
+        <!-- ============================================================== -->
+        <mxCell id="lane_vol" value="TRACK 1: VOLUNTEER MOBILE APP WORKFLOW (390 × 844 px Field Experience)" style="swimlane;startSize=36;rounded=1;arcSize=6;fillColor=#F0FDF4;strokeColor=#16A34A;strokeWidth=2;fontStyle=1;fontSize=14;fontColor=#14532D;" vertex="1" parent="1">
+          <mxGeometry x="500" y="170" width="1120" height="2360" as="geometry" />
+        </mxCell>
+
+        <!-- Volunteer Start -->
+        <mxCell id="vol_start" value="Volunteer Launches App&lt;br&gt;&lt;b&gt;/volunteer/login&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#16A34A;fontColor=#FFFFFF;strokeColor=#14532D;fontStyle=1;fontSize=12;" vertex="1" parent="lane_vol">
+          <mxGeometry x="460" y="55" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 1: Volunteer Login -->
+        <mxCell id="vol_s1" value="&lt;b&gt;Screen 1: Volunteer Login&lt;/b&gt;&lt;br&gt;• MARI &amp;amp; ITC Co-branding Header&lt;br&gt;• Employee ID (MARI-VOL-101)&lt;br&gt;• Password Field with Eye Toggle&lt;br&gt;• Remember-Me Checkbox&lt;br&gt;• 1-Click Auto-Fill Demo Credentials&lt;br&gt;• Simulated Form Validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="440" y="150" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: Punched in today? -->
+        <mxCell id="vol_d1" value="Is Attendance&lt;br&gt;Punched-in for&lt;br&gt;Today (12 Oct)?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontColor=#92400E;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="470" y="300" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 2: Field Punch-in -->
+        <mxCell id="vol_s2" value="&lt;b&gt;Screen 2: Field Punch-in (Geo-fenced)&lt;/b&gt;&lt;br&gt;• Simulated Selfie Camera Capture Preview&lt;br&gt;• Switch Demo Photo Toggle&lt;br&gt;• GPS Coordinates: 17.6534° N, 80.8987° E&lt;br&gt;• Location: ZPHS Sarapaka Cluster, Burgampahad&lt;br&gt;• High Precision Lock (4.2m Accuracy)&lt;br&gt;• Territory Geo-fence Matched (99% Match)&lt;br&gt;• Current Date &amp;amp; Time: Mon, 12 Oct 2026, 09:08 AM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="140" y="440" width="270" height="135" as="geometry" />
+        </mxCell>
+
+        <!-- Punch-in Confirmation & Success State -->
+        <mxCell id="vol_s2_confirm" value="&lt;b&gt;Confirm Attendance Action&lt;/b&gt;&lt;br&gt;• Location &amp;amp; Timestamp Verification&lt;br&gt;• State: &quot;Active on Duty&quot;&lt;br&gt;• Synchronize with Manager Live Feed&lt;br&gt;• Success Badge: Attendance Logged" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#14532D;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="155" y="615" width="240" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 3: Volunteer Home Dashboard -->
+        <mxCell id="vol_s3" value="&lt;b&gt;Screen 3: Volunteer Dashboard (/volunteer/dashboard)&lt;/b&gt;&lt;br&gt;• Profile: Rajesh Kumar (MARI-VOL-101, Senior Field Volunteer)&lt;br&gt;• Today Attendance Status Card: Punched In at 09:08 AM&lt;br&gt;• Monthly Target Progress: 79.2% Overall Progress Gauge&lt;br&gt;• Metric Breakdown: Schools (19/24), Students (960/1200), Kits (380/450)&lt;br&gt;• Quick Action Buttons: Log Activity | Calendar | Route | Punch-out&lt;br&gt;• Recent Visits Feed: Today's visits at Sarapaka &amp;amp; Burgampahad" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;fontSize=11;shadow=1;" vertex="1" parent="lane_vol">
+          <mxGeometry x="420" y="730" width="300" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Hub of Volunteer Actions -->
+        <mxCell id="vol_hub" value="Select User Action from Dashboard or Bottom Nav" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontColor=#92400E;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="460" y="910" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH A: Attendance Calendar (Screen 4) -->
+        <mxCell id="vol_s4" value="&lt;b&gt;Screen 4: Monthly Attendance Calendar&lt;/b&gt;&lt;br&gt;• Month Selector: October 2026 (22 Working Days)&lt;br&gt;• Green Indicator: Present Days (Oct 1, 3, 5, 6, 8, 9, 10, 12)&lt;br&gt;• Red Indicator: Absent / Unexcused Days (Oct 7)&lt;br&gt;• Blue Underline: Sundays (Oct 4, 11, 18, 25)&lt;br&gt;• Amber Indicator: Gandhi Jayanti National Holiday (Oct 2)&lt;br&gt;• Interactive Day Click: Opens Selected-Day Detail Drawer&lt;br&gt;&amp;nbsp;&amp;nbsp;(Punch-in, Punch-out, Hours, Schools Visited, Headcount)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="40" y="1050" width="280" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH B: Activity Selection (Screen 5) -->
+        <mxCell id="vol_s5" value="&lt;b&gt;Screen 5: Activity Selection Menu&lt;/b&gt;&lt;br&gt;• Select from 6 Program Activity Cards:&lt;br&gt;&amp;nbsp;&amp;nbsp;1. School Visit (Primary Program)&lt;br&gt;&amp;nbsp;&amp;nbsp;2. Hospital / PHC Health Visit&lt;br&gt;&amp;nbsp;&amp;nbsp;3. Awareness Programme (Tree / Sanitation)&lt;br&gt;&amp;nbsp;&amp;nbsp;4. Community Visit (Gram Panchayat)&lt;br&gt;&amp;nbsp;&amp;nbsp;5. Review Meeting (Mandal Education Officer)&lt;br&gt;&amp;nbsp;&amp;nbsp;6. Other Activity (Logistics &amp;amp; Kits)&lt;br&gt;• Click redirects to customized form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="370" y="1050" width="260" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 6: School Visit & Activity Form -->
+        <mxCell id="vol_s6" value="&lt;b&gt;Screen 6: School Visit Form &amp;amp; Activity Logger&lt;/b&gt;&lt;br&gt;• School Dropdown from Master Registry (e.g. ZPHS Sarapaka)&lt;br&gt;• District (Auto-filled / Bhadradri Kothagudem)&lt;br&gt;• Principal Contacted Toggle: [YES] / [NO]&lt;br&gt;• Students Reached Headcount (Numeric input, e.g. 48)&lt;br&gt;• Kits / Quantity Achieved (e.g. 48 Health Hygiene Kits)&lt;br&gt;• Field Observations &amp;amp; Remarks Textarea&lt;br&gt;• Next Follow-up Date Picker&lt;br&gt;• Geo-tagged Photo Attachment Preview&lt;br&gt;• Client-Side Validation (Required fields check)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="360" y="1240" width="280" height="165" as="geometry" />
+        </mxCell>
+
+        <!-- Form Success State -->
+        <mxCell id="vol_s6_success" value="&lt;b&gt;Activity Saved &amp;amp; Synchronized&lt;/b&gt;&lt;br&gt;• Appends to todayActivities in localStorage&lt;br&gt;• Increments Today Deliverable Counter&lt;br&gt;• Success modal: &quot;Activity Recorded!&quot;&lt;br&gt;• Option: Log Another Activity vs Back to Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#14532D;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="370" y="1450" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH C: Route History (Screen 7) -->
+        <mxCell id="vol_s7" value="&lt;b&gt;Screen 7: Route History (/volunteer/route-history)&lt;/b&gt;&lt;br&gt;• Date Selector for previous field days (10 Oct 2026)&lt;br&gt;• Summary Stats: 5 Stops, 14.8 km Travelled, 7h 30m Duration&lt;br&gt;• Leaflet Map Preview &amp;amp; GIS SVG Topology Fallback&lt;br&gt;• Interactive Waypoint Markers (1 to 5)&lt;br&gt;• Chronological Stop Timeline:&lt;br&gt;&amp;nbsp;&amp;nbsp;- 09:20 AM: Punch-in Point (Sarapaka Cluster)&lt;br&gt;&amp;nbsp;&amp;nbsp;- 10:15 AM: ZPHS Sarapaka School Visit&lt;br&gt;&amp;nbsp;&amp;nbsp;- 12:30 PM: Community Center Burgampahad&lt;br&gt;&amp;nbsp;&amp;nbsp;- 02:15 PM: MPPS Burgampahad Awareness Drive&lt;br&gt;&amp;nbsp;&amp;nbsp;- 04:50 PM: Punch-out Point (ITC Outreach Hub)&lt;br&gt;• Notice: Historical GPS breadcrumb records, not live tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="720" y="1050" width="360" height="190" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH D: Punch-out & Day Summary (Screen 8) -->
+        <mxCell id="vol_s8_choice" value="&lt;b&gt;Screen 8: End-of-Day Decision Point&lt;/b&gt;&lt;br&gt;Volunteer navigates to Punch Out" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontColor=#92400E;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="460" y="1570" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="vol_s8_continue" value="&lt;b&gt;Continue Field Visits&lt;/b&gt;&lt;br&gt;Add another school or hospital session before finalizing day" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;strokeWidth=1;fontColor=#854D0E;fontSize=10;" vertex="1" parent="lane_vol">
+          <mxGeometry x="220" y="1690" width="190" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="vol_s8_form" value="&lt;b&gt;Screen 8: Daily Close-out Summary Form&lt;/b&gt;&lt;br&gt;• Aggregated Today Summary Metrics:&lt;br&gt;&amp;nbsp;&amp;nbsp;- Schools Visited: 2&lt;br&gt;&amp;nbsp;&amp;nbsp;- Students Reached: 82&lt;br&gt;&amp;nbsp;&amp;nbsp;- Kits Achieved: 82 Kits Distributed&lt;br&gt;• Day Summary Remarks Textarea&lt;br&gt;• Issues or Challenges Faced (e.g. Weather, power delays)&lt;br&gt;• Next Working Day's Plan (e.g. TTWRS Aswapuram visit)&lt;br&gt;• Action: Confirm Punch-out &amp;amp; Submit Summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#DC2626;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_vol">
+          <mxGeometry x="430" y="1780" width="280" height="165" as="geometry" />
+        </mxCell>
+
+        <!-- Final Punch-out State -->
+        <mxCell id="vol_s8_final" value="&lt;b&gt;Final Attendance Status: Punched Out&lt;/b&gt;&lt;br&gt;• Timestamp Recorded (05:45 PM)&lt;br&gt;• Attendance locked for Oct 12&lt;br&gt;• Calendar status updated to 'present' with full daily metrics&lt;br&gt;• Synchronized with Zonal Manager Day Summary Report&lt;br&gt;• Prevents duplicate punch actions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;strokeWidth=2;fontColor=#991B1B;fontSize=11;shadow=1;" vertex="1" parent="lane_vol">
+          <mxGeometry x="430" y="1990" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="vol_end" value="End of Volunteer Field Day" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#FFFFFF;strokeColor=#334155;fontStyle=1;fontSize=12;" vertex="1" parent="lane_vol">
+          <mxGeometry x="470" y="2150" width="200" height="50" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================================== -->
+        <!-- SWIMLANE 2: MANAGER MOBILE APP WORKFLOW                        -->
+        <!-- ============================================================== -->
+        <mxCell id="lane_mgr" value="TRACK 2: MANAGER MOBILE APP WORKFLOW (390 × 844 px Zonal Supervision)" style="swimlane;startSize=36;rounded=1;arcSize=6;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontStyle=1;fontSize=14;fontColor=#1E3A8A;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="170" width="1120" height="2360" as="geometry" />
+        </mxCell>
+
+        <!-- Manager Start -->
+        <mxCell id="mgr_start" value="Manager Launches App&lt;br&gt;&lt;b&gt;/manager/login&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2563EB;fontColor=#FFFFFF;strokeColor=#1D4ED8;fontStyle=1;fontSize=12;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="460" y="55" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Manager Login -->
+        <mxCell id="mgr_login" value="&lt;b&gt;Manager Login Portal&lt;/b&gt;&lt;br&gt;• Manager ID (MARI-MGR-02)&lt;br&gt;• Vikramaditya Rao (Zonal Project Manager)&lt;br&gt;• Simulated Credential Validation&lt;br&gt;• Quick link to Volunteer Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="450" y="150" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 1: Manager Dashboard -->
+        <mxCell id="mgr_s1" value="&lt;b&gt;Screen 1: Manager Dashboard (/manager/dashboard)&lt;/b&gt;&lt;br&gt;• Zonal Profile: Vikramaditya Rao, Bhadradri Kothagudem&lt;br&gt;• Live Team Roll-Call Counters:&lt;br&gt;&amp;nbsp;&amp;nbsp;- 15 Present (83.3% Field Deployment)&lt;br&gt;&amp;nbsp;&amp;nbsp;- 2 Absent (Unexcused)&lt;br&gt;&amp;nbsp;&amp;nbsp;- 1 On Leave (Sanctioned)&lt;br&gt;• Cluster Completion Rate: 82.8% (298 / 360 Target Schools)&lt;br&gt;• Today's Logged Field Sessions: 38 Completed&lt;br&gt;• Live Field Activity Updates Ticker&lt;br&gt;• Manager Attendance Status: On Duty (ITC Zonal HQ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;fontSize=11;shadow=1;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="420" y="280" width="280" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- Screen 2: Manager Punch-in -->
+        <mxCell id="mgr_s2" value="&lt;b&gt;Screen 2: Manager Punch-in (/manager/punch-in)&lt;/b&gt;&lt;br&gt;• ITC Zonal CSR Headquarters Geo-fence (17.6620° N, 80.8810° E)&lt;br&gt;• Manager Selfie Capture Simulation&lt;br&gt;• Date &amp;amp; Time: 12 Oct 2026, 08:45 AM&lt;br&gt;• Confirmation Action &amp;amp; Verified Badge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="120" y="320" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Hub of Manager Modules -->
+        <mxCell id="mgr_hub" value="Select Monitoring Action from Dashboard" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontColor=#92400E;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="450" y="500" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- MODULE 3: Volunteer Performance -->
+        <mxCell id="mgr_s3" value="&lt;b&gt;Screen 3: Volunteer Scorecards (/manager/volunteers)&lt;/b&gt;&lt;br&gt;• Real-time Search by Name, Employee ID or Territory&lt;br&gt;• Filter by Attendance Status (All / Present / Absent / Leave)&lt;br&gt;• Card Roster: Name, Emp ID, Attendance Pill, District&lt;br&gt;• Monthly Target Completion Progress Bars (e.g. 79.2%)&lt;br&gt;• Click opens Detailed Volunteer Scorecard Drawer Modal&lt;br&gt;&amp;nbsp;&amp;nbsp;(Target vs achieved breakdown, contact info, attendance %)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="40" y="660" width="290" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- MODULE 4: Team Performance Analytics -->
+        <mxCell id="mgr_s4" value="&lt;b&gt;Screen 4: Team Analytics (/manager/team-performance)&lt;/b&gt;&lt;br&gt;• District &amp;amp; Reporting Month Filter Slicers&lt;br&gt;• Recharts Monthly Trend Bar Graph:&lt;br&gt;&amp;nbsp;&amp;nbsp;Planned vs Achieved Schools (May – Oct MTD)&lt;br&gt;• Activity Distribution Donut Chart:&lt;br&gt;&amp;nbsp;&amp;nbsp;School (21), Awareness (8), Hospital (4), Community (3), Meeting (2)&lt;br&gt;• Leaderboard Ranking Table:&lt;br&gt;&amp;nbsp;&amp;nbsp;Suresh Babu (#1: 84%), Rajesh Kumar (#2: 79%), Priya (#3: 81%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="370" y="660" width="290" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- MODULE 5: Monthly Report & Excel Export -->
+        <mxCell id="mgr_s5" value="&lt;b&gt;Screen 5: Monthly Report (/manager/monthly-report)&lt;/b&gt;&lt;br&gt;• Reporting Month Dropdown: October 2026&lt;br&gt;• Territory &amp;amp; Activity Scope Slicers&lt;br&gt;• Aggregate Metrics: 117 Planned, 91 Achieved, 77.8% Completion&lt;br&gt;• Detailed Volunteer Work Matrix Table&lt;br&gt;• &lt;b style='color:#16A34A;'&gt;Download Excel / CSV Action Button&lt;/b&gt;:&lt;br&gt;&amp;nbsp;&amp;nbsp;Generates real formatted CSV table for ITC CSR audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="700" y="660" width="290" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- CSV Engine Subprocess -->
+        <mxCell id="mgr_csv_sub" value="&lt;b&gt;ExportCsvButton Component&lt;/b&gt;&lt;br&gt;Parses active filtered state into standard CSV MIME blob and triggers browser download" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontColor=#14532D;fontSize=10;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="720" y="860" width="250" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- MODULE 6: Day Summary Report -->
+        <mxCell id="mgr_s6" value="&lt;b&gt;Screen 6: Day Summary Report (/manager/day-summary)&lt;/b&gt;&lt;br&gt;• Audit Date Picker: Today (12 Oct 2026)&lt;br&gt;• Roll-Call Summary Pills: 4 Present, 1 Absent, 1 On Leave&lt;br&gt;• Today Deliverables: 6 Schools Visited, 259 Students Reached&lt;br&gt;• Searchable Volunteer Attendance &amp;amp; Progress Roster&lt;br&gt;• Punch-in Timestamps &amp;amp; Cluster Location Badges" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="220" y="990" width="290" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- MODULE 7: Volunteer Route History Audit -->
+        <mxCell id="mgr_s7" value="&lt;b&gt;Screen 7: Volunteer Route Audit (/manager/route-history)&lt;/b&gt;&lt;br&gt;• Select Field Volunteer Dropdown (e.g. Rajesh Kumar)&lt;br&gt;• Select Audit Date Picker (e.g. 10 Oct 2026)&lt;br&gt;• Audit Mode Disclaimer (Historical GPS trail preview, not live tracking)&lt;br&gt;• Leaflet Map Preview &amp;amp; 5 Waypoint Pins&lt;br&gt;• Chronological Stop Checkpoints &amp;amp; 4.2m GPS Integrity Verifier" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2563EB;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="580" y="990" width="310" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mgr_end" value="Zonal Manager Review Complete" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#FFFFFF;strokeColor=#334155;fontStyle=1;fontSize=12;" vertex="1" parent="lane_mgr">
+          <mxGeometry x="460" y="1220" width="200" height="50" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================================== -->
+        <!-- SWIMLANE 3: ADMIN WEB DASHBOARD WORKFLOW                       -->
+        <!-- ============================================================== -->
+        <mxCell id="lane_adm" value="TRACK 3: ADMIN WEB DASHBOARD WORKFLOW (Desktop 1440 × 900 px Governance HQ)" style="swimlane;startSize=36;rounded=1;arcSize=6;fillColor=#EEF2FF;strokeColor=#6366F1;strokeWidth=2;fontStyle=1;fontSize=14;fontColor=#312E81;" vertex="1" parent="1">
+          <mxGeometry x="2820" y="170" width="1180" height="2360" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Start -->
+        <mxCell id="adm_start" value="ITC CSR / NGO Admin Login&lt;br&gt;&lt;b&gt;/admin/dashboard&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4F46E5;fontColor=#FFFFFF;strokeColor=#3730A3;fontStyle=1;fontSize=12;" vertex="1" parent="lane_adm">
+          <mxGeometry x="490" y="55" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Layout Structure -->
+        <mxCell id="adm_layout" value="&lt;b&gt;Enterprise Admin Shell (AdminLayout)&lt;/b&gt;&lt;br&gt;• Collapsible Left Navigation Sidebar (Dashboard, Users, Schools, Orgs, Reports, Master)&lt;br&gt;• Top Search Header, CSR Online Badge &amp;amp; Executive Profile Menu&lt;br&gt;• Role Context: Dr. Ananya Sen (General Manager, ITC CSR &amp;amp; Social Forestry)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="440" y="150" width="300" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Module 1: Admin Dashboard -->
+        <mxCell id="adm_m1" value="&lt;b&gt;Module 1: Executive Dashboard (/admin/dashboard)&lt;/b&gt;&lt;br&gt;• 6 Primary KPI Metric Cards:&lt;br&gt;&amp;nbsp;&amp;nbsp;- Total System Users: 124 (+12 this quarter)&lt;br&gt;&amp;nbsp;&amp;nbsp;- Field Volunteers: 96 deployed across 4 NGOs&lt;br&gt;&amp;nbsp;&amp;nbsp;- Zonal Managers: 14 leads&lt;br&gt;&amp;nbsp;&amp;nbsp;- Registered Schools: 380 (94% Geo-tagged)&lt;br&gt;&amp;nbsp;&amp;nbsp;- Partner NGOs: 4 Active (MARI, Pratham, BTWS)&lt;br&gt;&amp;nbsp;&amp;nbsp;- Attendance Today: 89.2% (85 Present / 96 Active)&lt;br&gt;• Program Reach Velocity Recharts Area Chart (Wk 38 – Wk 42)&lt;br&gt;• District Coverage Matrix Bars (Bhadradri, Khammam, Mahabubabad)&lt;br&gt;• Administrative Navigation Shortcuts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=2;fontColor=#0F172A;align=left;spacingLeft=12;fontSize=11;shadow=1;" vertex="1" parent="lane_adm">
+          <mxGeometry x="430" y="270" width="320" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Hub Router -->
+        <mxCell id="adm_hub" value="Select Administrative Module from Sidebar" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontStyle=1;fontColor=#92400E;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="470" y="520" width="240" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Module 2: User Management -->
+        <mxCell id="adm_m2" value="&lt;b&gt;Module 2: User Management (/admin/users)&lt;/b&gt;&lt;br&gt;• Directory Table with Search &amp;amp; Filters (Role, District)&lt;br&gt;• User List: Name, Emp ID, Avatar, Org, District, Supervisor&lt;br&gt;• Role Switcher: Volunteer | Manager | NGO Admin | ITC Admin&lt;br&gt;• Account Status Toggle: Active &amp;lt;-&amp;gt; Inactive (Simulated)&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Add User Modal Form&lt;/b&gt; (Name, Role, Email, Phone, Org, Manager)&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Edit User Modal Form&lt;/b&gt; (Update designations and territories)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="30" y="670" width="290" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Module 3: School Management -->
+        <mxCell id="adm_m3" value="&lt;b&gt;Module 3: School Registry (/admin/schools)&lt;/b&gt;&lt;br&gt;• Geo-Tagged Directory of 380 Schools&lt;br&gt;• Table Columns: School Name, UDISE Code, District, Headmaster, Enrolment, Last Visited&lt;br&gt;• District &amp;amp; Category Filter Slicers&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Register New School Modal&lt;/b&gt; (UDISE, Category, Lat/Lng coordinates)&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Edit School Modal&lt;/b&gt;&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;View School Detail Drawer&lt;/b&gt; (GPS coordinates, Headmaster phone, Geo-fence active)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="350" y="670" width="290" height="175" as="geometry" />
+        </mxCell>
+
+        <!-- Module 4: Manager & Organisation Management -->
+        <mxCell id="adm_m4" value="&lt;b&gt;Module 4: Manager &amp;amp; NGO Allocation (/admin/managers-orgs)&lt;/b&gt;&lt;br&gt;• Implementing Partner Profiles (MARI, Pratham, BTWS)&lt;br&gt;• NGO Registration Numbers, Field Volunteers Deployed, Active Projects&lt;br&gt;• Supervisory Allocation Roster Table&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Reassign Manager Modal Dialog&lt;/b&gt;:&lt;br&gt;&amp;nbsp;&amp;nbsp;Reassign field volunteers to different zonal managers in localStorage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="670" y="670" width="290" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Module 5: Desktop Reports Hub -->
+        <mxCell id="adm_m5" value="&lt;b&gt;Module 5: Reports Hub (/admin/reports)&lt;/b&gt;&lt;br&gt;• Tabbed Desktop Suite:&lt;br&gt;&amp;nbsp;&amp;nbsp;1. Monthly Progress Report Matrix&lt;br&gt;&amp;nbsp;&amp;nbsp;2. Daily Field Roll-Call &amp;amp; Outputs Table&lt;br&gt;&amp;nbsp;&amp;nbsp;3. Team Performance &amp;amp; Trend Graphs&lt;br&gt;&amp;nbsp;&amp;nbsp;4. Route History Audit with Interactive Leaflet Map&lt;br&gt;• Integrated ExportCsvButton Component for CSV Downloads" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="200" y="930" width="310" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Module 6: Master Data & Taxonomy -->
+        <mxCell id="adm_m6" value="&lt;b&gt;Module 6: Master Data &amp;amp; Taxonomy (/admin/master-data)&lt;/b&gt;&lt;br&gt;• Administrative Taxonomies:&lt;br&gt;&amp;nbsp;&amp;nbsp;- Active Districts (Bhadradri Kothagudem, Khammam, Mahabubabad, East Godavari)&lt;br&gt;&amp;nbsp;&amp;nbsp;- Operational States (Telangana, Andhra Pradesh, Karnataka)&lt;br&gt;&amp;nbsp;&amp;nbsp;- School Categories (Primary, Upper Primary, High School, Model, KGBV)&lt;br&gt;&amp;nbsp;&amp;nbsp;- Activity Modules (6 Field Form Types)&lt;br&gt;• &lt;b style='color:#4F46E5;'&gt;Add Master Entry Modal Form&lt;/b&gt; (Creates and stores in local state)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6366F1;strokeWidth=1.5;fontColor=#0F172A;align=left;spacingLeft=10;fontSize=11;" vertex="1" parent="lane_adm">
+          <mxGeometry x="580" y="930" width="310" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="adm_end" value="Admin Governance Session Complete" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#FFFFFF;strokeColor=#334155;fontStyle=1;fontSize=12;" vertex="1" parent="lane_adm">
+          <mxGeometry x="490" y="1170" width="200" height="50" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================================== -->
+        <!-- SHARED LOCAL STORAGE & DATA LAYER                              -->
+        <!-- ============================================================== -->
+        <mxCell id="data_layer_box" value="MARI Prototype Data Persistence &amp;amp; Synchronization Engine (DemoContext &amp;amp; localStorage)" style="swimlane;startSize=30;rounded=1;fillColor=#F8FAFC;strokeColor=#0F172A;strokeWidth=2;fontStyle=1;fontSize=13;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="500" y="2590" width="3500" height="420" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_users" value="&lt;b&gt;Users Store&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_users)&lt;br&gt;Volunteers, Managers, Admins with targets, achievements, phone, avatar, district" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="60" y="70" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_punch" value="&lt;b&gt;Attendance Punch Store&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_punch)&lt;br&gt;isPunchedIn, isPunchedOut, punchInTime, punchOutTime, geo-fence coordinates, photo URL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="400" y="70" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_activities" value="&lt;b&gt;Field Activities Store&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_activities)&lt;br&gt;Logged school visits, headcounts, hygiene kits, remarks, follow-up dates, verification status" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="760" y="70" width="310" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_calendar" value="&lt;b&gt;Attendance Calendar Store&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_calendar)&lt;br&gt;Monthly array of 31 days with Present, Absent, Sunday indicators, and visit counts" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="1130" y="70" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_schools" value="&lt;b&gt;Schools Master Registry&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_schools)&lt;br&gt;380 geo-tagged schools with 11-digit UDISE codes, categories, principal phone numbers" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="1490" y="70" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_master" value="&lt;b&gt;Taxonomy Master Store&lt;/b&gt;&lt;br&gt;(mari_field_demo_state_v1_master)&lt;br&gt;States, Districts, School Categories, and Field Activity definitions" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;fontSize=11;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="1850" y="70" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds_sync" value="&lt;b&gt;Real-Time Local Storage Synchronizer &amp;amp; Demo Reset Engine&lt;/b&gt;&lt;br&gt;• State is updated instantly on any form submission, user addition, or punch status change&lt;br&gt;• Browser refresh keeps prototype state intact with zero data loss&lt;br&gt;• &lt;b style='color:#DC2626;'&gt;resetAllDemoData()&lt;/b&gt; method wipes localStorage keys and restores initial sample values&lt;br&gt;• Safe Frontend Sandbox: Zero backend, zero external database, zero network credentials needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#F8FAFC;strokeColor=#38BDF8;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=15;" vertex="1" parent="data_layer_box">
+          <mxGeometry x="60" y="230" width="2070" height="140" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================================== -->
+        <!-- CONNECTORS / FLOWCHART EDGES                                   -->
+        <!-- ============================================================== -->
+
+        <!-- Track 1 Connectors (Volunteer) -->
+        <mxCell id="e_vol_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_start" target="vol_s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_vol_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s1" target="vol_d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_d1_no" value="NO (Pending Punch-in)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontStyle=1;fontColor=#D97706;" edge="1" parent="lane_vol" source="vol_d1" target="vol_s2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_d1_yes" value="YES (Already Active)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;fontStyle=1;fontColor=#16A34A;" edge="1" parent="lane_vol" source="vol_d1" target="vol_s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s2_confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s2" target="vol_s2_confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s2_to_s3" value="Enter Field Dashboard" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;fontStyle=1;fontColor=#16A34A;" edge="1" parent="lane_vol" source="vol_s2_confirm" target="vol_s3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="780" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_s3_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s3" target="vol_hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Volunteer Hub to Branches -->
+        <mxCell id="e_vol_hub_cal" value="View Attendance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#16A34A;" edge="1" parent="lane_vol" source="vol_hub" target="vol_s4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_hub_act" value="Record Activity" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;fontStyle=1;fontColor=#16A34A;" edge="1" parent="lane_vol" source="vol_hub" target="vol_s5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_hub_route" value="View GPS Route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=1.5;fontColor=#16A34A;" edge="1" parent="lane_vol" source="vol_hub" target="vol_s7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_s5_s6" value="Select Category" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s5" target="vol_s6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s6_success" value="Submit Form" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s6" target="vol_s6_success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s6_loop" value="Log Another" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=1.5;" edge="1" parent="lane_vol" source="vol_s6_success" target="vol_s5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="340" y="1490" />
+              <mxPoint x="340" y="1125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_to_close" value="Ready to Close Day" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DC2626;strokeWidth=2;fontColor=#DC2626;" edge="1" parent="lane_vol" source="vol_s6_success" target="vol_s8_choice">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="1550" />
+              <mxPoint x="570" y="1550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_s8_cont" value="Continue Fieldwork" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#CA8A04;strokeWidth=1.5;fontColor=#CA8A04;" edge="1" parent="lane_vol" source="vol_s8_choice" target="vol_s8_continue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s8_reloop" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#CA8A04;strokeWidth=1.5;" edge="1" parent="lane_vol" source="vol_s8_continue" target="vol_s5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="1690" />
+              <mxPoint x="315" y="1125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_vol_s8_punchout" value="Punch Out Selected" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DC2626;strokeWidth=2;fontStyle=1;fontColor=#DC2626;" edge="1" parent="lane_vol" source="vol_s8_choice" target="vol_s8_form">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s8_confirm" value="Submit Summary &amp;amp; Punch-out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DC2626;strokeWidth=2;fontStyle=1;fontColor=#DC2626;" edge="1" parent="lane_vol" source="vol_s8_form" target="vol_s8_final">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_vol_s8_end" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=2;" edge="1" parent="lane_vol" source="vol_s8_final" target="vol_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+
+        <!-- Track 2 Connectors (Manager) -->
+        <mxCell id="e_mgr_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;" edge="1" parent="lane_mgr" source="mgr_start" target="mgr_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;" edge="1" parent="lane_mgr" source="mgr_login" target="mgr_s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_punch" value="Verify Punch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_s1" target="mgr_s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;" edge="1" parent="lane_mgr" source="mgr_s1" target="mgr_hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_hub_s3" value="Volunteers" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_hub" target="mgr_s3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="185" y="545" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_mgr_hub_s4" value="Team Analytics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;" edge="1" parent="lane_mgr" source="mgr_hub" target="mgr_s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_hub_s5" value="Monthly Report" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_hub" target="mgr_s5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="845" y="545" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_mgr_s5_csv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_s5" target="mgr_csv_sub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mgr_hub_s6" value="Day Summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_hub" target="mgr_s6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_mgr_hub_s7" value="Route Audit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;" edge="1" parent="lane_mgr" source="mgr_hub" target="mgr_s7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="735" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_mgr_to_end" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=2;" edge="1" parent="lane_mgr" source="mgr_s6" target="mgr_end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="1180" />
+              <mxPoint x="560" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+
+        <!-- Track 3 Connectors (Admin) -->
+        <mxCell id="e_adm_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=2;" edge="1" parent="lane_adm" source="adm_start" target="adm_layout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_adm_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=2;" edge="1" parent="lane_adm" source="adm_layout" target="adm_m1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_adm_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=2;" edge="1" parent="lane_adm" source="adm_m1" target="adm_hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_adm_m2" value="User Mgmt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;" edge="1" parent="lane_adm" source="adm_hub" target="adm_m2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="175" y="565" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_adm_m3" value="School Registry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;" edge="1" parent="lane_adm" source="adm_hub" target="adm_m3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_adm_m4" value="NGO Matrix" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;" edge="1" parent="lane_adm" source="adm_hub" target="adm_m4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="815" y="565" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_adm_m5" value="Reports Hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;" edge="1" parent="lane_adm" source="adm_hub" target="adm_m5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_adm_m6" value="Master Data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;" edge="1" parent="lane_adm" source="adm_hub" target="adm_m6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="735" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_adm_to_end" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=2;" edge="1" parent="lane_adm" source="adm_m5" target="adm_end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355" y="1130" />
+              <mxPoint x="590" y="1130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Cross-cutting Sync Edges to Data Layer -->
+        <mxCell id="sync_vol_act" value="Append Activity Log" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#10B981;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="vol_s6_success" target="ds_activities">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="1660" />
+              <mxPoint x="1000" y="2630" />
+              <mxPoint x="1415" y="2630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="sync_vol_punch" value="Write Punch State" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#10B981;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="vol_s8_final" target="ds_punch">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="2210" />
+              <mxPoint x="1070" y="2620" />
+              <mxPoint x="1050" y="2620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="sync_mgr_feed" value="Read Live Roll-Call &amp;amp; Attendance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="ds_punch" target="mgr_s1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1050" y="2580" />
+              <mxPoint x="1750" y="2580" />
+              <mxPoint x="1750" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="sync_adm_users" value="Sync User Registry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="adm_m2" target="ds_users">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2900" y="1020" />
+              <mxPoint x="2900" y="2570" />
+              <mxPoint x="700" y="2570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="sync_adm_schools" value="Sync Schools DB" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6366F1;strokeWidth=1.5;dashed=1;" edge="1" parent="1" source="adm_m3" target="ds_schools">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3200" y="1030" />
+              <mxPoint x="3200" y="2560" />
+              <mxPoint x="2140" y="2560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
