@@ -6,241 +6,239 @@ import {
   LogOut,
   PlusCircle,
   CheckCircle,
-  School,
-  Users,
-  Package,
   AlertTriangle,
   Calendar,
   Clock,
   ArrowRight,
-  RotateCcw,
-  Sparkles
+  Camera,
+  RefreshCw,
+  Scale
 } from 'lucide-react';
 
 export default function VolunteerPunchOut() {
   const navigate = useNavigate();
-  const { punchState, todayActivities, handlePunchOut, resetAllDemoData } = useDemo();
+  const { punchState, todayActivities, handlePunchOut, currentCoordinator } = useDemo();
 
-  const [mode, setMode] = useState('punch_out'); // 'punch_out' | 'continue'
-  const [remarks, setRemarks] = useState('All planned school sessions successfully conducted with teacher participation.');
-  const [issues, setIssues] = useState('Power fluctuation at Burgampahad primary school; projector could not be used.');
-  const [nextDayPlan, setNextDayPlan] = useState('Visit TTWRS Residential School Aswapuram and distribute 60 hygiene kits.');
+  const [mode, setMode] = useState('punch_out');
+  const [remarks, setRemarks] = useState('Completed school collection drive and awareness session. All material transferred to MRF.');
+  const [issues, setIssues] = useState('Weighbridge queue at MRF delayed receipt collection by 20 minutes.');
+  const [nextDayPlan, setNextDayPlan] = useState('Conduct ISRS collection drive at MPPS Burgampahad & follow-up with Govt Degree College.');
+  const [punchOutPhoto, setPunchOutPhoto] = useState(
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80'
+  );
   const [submitting, setSubmitting] = useState(false);
 
-  // Compute stats from todayActivities
-  const schoolsCount = todayActivities.filter(a => a.type === 'school_visit').length || 2;
-  const studentsCount = todayActivities.reduce((acc, curr) => acc + (Number(curr.studentsReached) || 0), 0) || 82;
-  const kitsCount = todayActivities.reduce((acc, curr) => acc + (Number(curr.quantityAchieved) || 0), 0) || 82;
+  // Compute metrics from todayActivities
+  const totalTasks = todayActivities.length || 2;
+  const totalKg = todayActivities.reduce((acc, curr) => acc + (Number(curr.quantityCollected) || Number(curr.quantityAchieved) || 0), 0) || 290;
+  const totalVerifiedKg = todayActivities.reduce((acc, curr) => acc + (Number(curr.verifiedQuantity) || Number(curr.quantityCollected) || 0), 0) || 280;
 
   const handleConfirmPunchOut = () => {
     setSubmitting(true);
     setTimeout(() => {
       handlePunchOut({
-        schoolsCount,
-        studentsCount,
-        kitsCount,
+        totalTasks,
+        totalKg,
+        totalVerifiedKg,
         remarks,
         issues,
-        nextDayPlan
+        nextDayPlan,
+        photo: punchOutPhoto
       });
       setSubmitting(false);
     }, 600);
   };
 
   return (
-    <MobileLayout title="Punch-out & Day Summary" showBack={true} role="volunteer">
-      <div className="space-y-4 pb-6">
-        {/* If already punched out, show completed final state */}
+    <MobileLayout title="Punch-Out & Daily Summary" showBack={true} role="coordinator">
+      <div className="space-y-3.5 pb-6">
         {punchState.isPunchedOut ? (
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm text-center space-y-4 animate-fadeIn">
-            <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-800 mx-auto flex items-center justify-center ring-8 ring-slate-50">
-              <CheckCircle className="w-9 h-9 text-emerald-600" />
+          <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs text-center space-y-3 animate-fadeIn">
+            <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 mx-auto flex items-center justify-center border border-slate-200">
+              <CheckCircle className="w-7 h-7 text-teal-700" />
             </div>
 
             <div>
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                 Attendance Finalized
               </span>
-              <h2 className="text-lg font-bold text-slate-900 mt-2">Field Day Completed!</h2>
+              <h2 className="text-base font-bold text-slate-900 mt-2">Field Day Completed!</h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 Punched out at <span className="font-bold text-slate-800 font-mono">{punchState.punchOutTime || '05:45 PM'}</span>.
-                Your daily summary has been submitted to your manager.
+                Daily report synchronized to Manager Console.
               </p>
             </div>
 
-            {/* Final Daily Summary Metrics */}
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 block">Schools</span>
-                <span className="text-sm font-bold text-slate-900">{schoolsCount}</span>
+            {/* Metrics */}
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+                <span className="text-[10px] text-slate-500 block">Tasks Completed</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">{totalTasks}</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 block">Students</span>
-                <span className="text-sm font-bold text-slate-900">{studentsCount}</span>
+              <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+                <span className="text-[10px] text-slate-500 block">Collected</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">{totalKg} Kg</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 block">Kits</span>
-                <span className="text-sm font-bold text-slate-900">{kitsCount}</span>
+              <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+                <span className="text-[10px] text-slate-500 block">Verified MRF</span>
+                <span className="text-sm font-bold text-teal-800 font-mono">{totalVerifiedKg} Kg</span>
               </div>
             </div>
 
-            {/* Next Plan Snapshot */}
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-left text-xs space-y-1">
+            <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-left text-xs space-y-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                Next Day's Plan
+                Tomorrow's Scheduled Plan
               </span>
               <p className="text-slate-700 font-medium">{nextDayPlan}</p>
             </div>
 
-            {/* Navigation & Presentation helper */}
             <div className="space-y-2 pt-2">
               <button
                 onClick={() => navigate('/volunteer/dashboard')}
-                className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all"
+                className="w-full py-2 bg-teal-700 hover:bg-teal-800 text-white rounded text-xs font-bold"
               >
-                Go to Volunteer Dashboard
+                Go to Coordinator Dashboard
               </button>
 
               <button
                 onClick={() => navigate('/manager/day-summary')}
-                className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold transition-all"
+                className="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-semibold"
               >
-                View as Manager in Day Summary Report →
+                Inspect in Manager Day Summary Report →
               </button>
             </div>
           </div>
         ) : (
           <>
             {/* Mode Selector Choice Cards */}
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => setMode('punch_out')}
-                className={`p-3 rounded-2xl border text-left transition-all ${
+                className={`p-2.5 rounded-xl border text-left transition-all ${
                   mode === 'punch_out'
-                    ? 'bg-rose-50/80 border-rose-500 ring-2 ring-rose-500/20 shadow-xs'
-                    : 'bg-white border-slate-200 hover:border-slate-300'
+                    ? 'bg-rose-50 border-rose-400'
+                    : 'bg-white border-slate-200'
                 }`}
               >
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-2 ${
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center mb-1.5 ${
                   mode === 'punch_out' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-600'
                 }`}>
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5" />
                 </div>
                 <h3 className="text-xs font-bold text-slate-900">Punch Out Now</h3>
-                <p className="text-[10px] text-slate-500 mt-0.5">Finalize today's attendance & submit daily report</p>
+                <p className="text-[10px] text-slate-500">Capture selfie & finalize day</p>
               </button>
 
               <button
                 type="button"
                 onClick={() => navigate('/volunteer/activity-select')}
-                className="p-3 rounded-2xl border bg-white border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/30 text-left transition-all group"
+                className="p-2.5 rounded-xl border bg-white border-slate-200 hover:border-teal-700 text-left transition-all"
               >
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
-                  <PlusCircle className="w-4 h-4" />
+                <div className="w-7 h-7 rounded-lg bg-teal-50 text-teal-800 flex items-center justify-center mb-1.5 border border-teal-200">
+                  <PlusCircle className="w-3.5 h-3.5" />
                 </div>
-                <h3 className="text-xs font-bold text-slate-900">Add Another Activity</h3>
-                <p className="text-[10px] text-slate-500 mt-0.5">Continue field visits before day end</p>
+                <h3 className="text-xs font-bold text-slate-900">Add Another Task</h3>
+                <p className="text-[10px] text-slate-500">Log additional field outreach</p>
               </button>
             </div>
 
-            {/* Today's Recorded Activity Summary Card */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                <h3 className="text-xs font-bold text-slate-900">Today's Activity Summary</h3>
-                <span className="text-[10px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">
-                  {todayActivities.length} Sessions Logged
-                </span>
+            {/* Form */}
+            <form onSubmit={(e) => { e.preventDefault(); handleConfirmPunchOut(); }} className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-3">
+              <div className="border-b border-slate-100 pb-2">
+                <h3 className="text-xs font-bold text-slate-900">Daily Reconciliation & Punch-Out</h3>
+                <p className="text-[10px] text-slate-500">Review today's dry waste achievements before closing duty.</p>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                  <div className="w-6 h-6 rounded bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center mb-1">
-                    <School className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-[10px] text-slate-500 block">Schools</span>
-                  <span className="text-xs font-bold text-slate-900">{schoolsCount}</span>
+              {/* Day Metrics Summary */}
+              <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-center text-xs">
+                <div>
+                  <span className="text-[10px] text-slate-500 block">Tasks Logged</span>
+                  <span className="font-bold text-slate-900 font-mono">{totalTasks}</span>
                 </div>
-
-                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                  <div className="w-6 h-6 rounded bg-blue-100 text-blue-700 mx-auto flex items-center justify-center mb-1">
-                    <Users className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-[10px] text-slate-500 block">Students</span>
-                  <span className="text-xs font-bold text-slate-900">{studentsCount}</span>
+                <div>
+                  <span className="text-[10px] text-slate-500 block">Collected (Kg)</span>
+                  <span className="font-bold text-slate-900 font-mono">{totalKg}</span>
                 </div>
-
-                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                  <div className="w-6 h-6 rounded bg-amber-100 text-amber-700 mx-auto flex items-center justify-center mb-1">
-                    <Package className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-[10px] text-slate-500 block">Kits Achieved</span>
-                  <span className="text-xs font-bold text-slate-900">{kitsCount}</span>
+                <div>
+                  <span className="text-[10px] text-slate-500 block">Weighbridge (Kg)</span>
+                  <span className="font-bold text-teal-800 font-mono">{totalVerifiedKg}</span>
                 </div>
               </div>
-            </div>
 
-            {/* Daily Summary & Feedback Form */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3.5">
-              <h3 className="text-xs font-bold text-slate-900">Day Close-out Feedback</h3>
-
+              {/* Mandatory Geotagged Selfie for Punch-Out (PRD Requirement) */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Day Summary Remarks
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5 text-teal-700" />
+                    <span>Mandatory Punch-Out Selfie (Geotagged) *</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setPunchOutPhoto(prev => prev.includes('507003211169')
+                      ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'
+                      : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80')}
+                    className="text-[10px] text-teal-800 font-bold hover:underline"
+                  >
+                    Switch Photo
+                  </button>
+                </div>
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-900 border border-slate-300">
+                  <img src={punchOutPhoto} alt="Punch-Out Proof" className="w-full h-full object-cover" />
+                  <div className="absolute bottom-1 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">
+                    17.6620° N, 80.8810° E · 05:45 PM
+                  </div>
+                </div>
+              </div>
+
+              {/* Remarks */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Field Outcomes & Remarks *</label>
                 <textarea
                   rows={2}
                   value={remarks}
                   onChange={(e) => setRemarks(e.target.value)}
-                  placeholder="Summary of today's field performance..."
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 outline-none focus:bg-white focus:border-emerald-500 resize-none"
+                  className="w-full py-1.5 px-2 bg-slate-50 border border-slate-300 rounded text-xs outline-none focus:border-teal-700 resize-none"
                 />
               </div>
 
+              {/* Issues */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Issues or Challenges Faced</span>
-                </label>
-                <textarea
-                  rows={2}
+                <label className="block text-xs font-bold text-slate-700 mb-1">Field Issues / Bottlenecks</label>
+                <input
+                  type="text"
                   value={issues}
                   onChange={(e) => setIssues(e.target.value)}
-                  placeholder="Transport delay, kit shortage, weather..."
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 outline-none focus:bg-white focus:border-amber-500 resize-none"
+                  className="w-full py-1.5 px-2 bg-slate-50 border border-slate-300 rounded text-xs outline-none focus:border-teal-700"
                 />
               </div>
 
+              {/* Next Day Plan */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Next Working Day's Plan
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Tomorrow's Work Plan *</label>
                 <input
                   type="text"
                   value={nextDayPlan}
                   onChange={(e) => setNextDayPlan(e.target.value)}
-                  placeholder="Target schools or community camps for tomorrow..."
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 outline-none focus:bg-white focus:border-emerald-500"
+                  className="w-full py-1.5 px-2 bg-slate-50 border border-slate-300 rounded text-xs outline-none focus:border-teal-700"
                 />
               </div>
 
-              {/* Confirm Punch Out Button */}
               <button
-                type="button"
-                onClick={handleConfirmPunchOut}
+                type="submit"
                 disabled={submitting}
-                className="w-full py-3 px-4 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white rounded-2xl text-xs font-bold shadow-md shadow-rose-600/20 flex items-center justify-center gap-2 transition-all mt-2"
+                className="w-full py-2.5 px-4 bg-rose-700 hover:bg-rose-800 text-white rounded text-xs font-bold shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.98] mt-2"
               >
                 {submitting ? (
-                  <span>Recording Punch-out...</span>
+                  <span>Submitting Final Attendance...</span>
                 ) : (
                   <>
                     <LogOut className="w-4 h-4" />
-                    <span>Confirm Punch-out & Submit Summary</span>
+                    <span>Confirm Punch-Out & Submit Daily Summary</span>
                   </>
                 )}
               </button>
-            </div>
+            </form>
           </>
         )}
       </div>

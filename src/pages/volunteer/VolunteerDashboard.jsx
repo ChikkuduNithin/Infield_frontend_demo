@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDemo } from '../../context/DemoContext';
 import MobileLayout from '../../layouts/MobileLayout';
+import Modal from '../../components/common/Modal';
 import {
   School,
   Users,
   Package,
-  PlusCircle,
   Calendar,
   MapPin,
   Clock,
@@ -17,84 +17,135 @@ import {
   Award,
   ArrowUpRight,
   LogOut,
-  Sparkles
+  Building2,
+  Briefcase,
+  FileText,
+  Download,
+  UploadCloud,
+  CheckCircle2,
+  Recycle,
+  AlertTriangle,
+  FolderDown
 } from 'lucide-react';
 
 export default function VolunteerDashboard() {
   const navigate = useNavigate();
-  const { currentVolunteer, punchState, todayActivities } = useDemo();
+  const {
+    currentCoordinator,
+    punchState,
+    todayActivities,
+    pendingActivities,
+    resolvePendingActivity,
+    holidays,
+    downloads
+  } = useDemo();
 
-  // Targets and achievements
-  const target = currentVolunteer.monthlyTarget || { schools: 24, students: 1200, kits: 450 };
-  const achieved = currentVolunteer.achieved || { schools: 19, students: 960, kits: 380 };
+  const [showPendingModal, setShowPendingModal] = useState(false);
+  const [showHolidaysModal, setShowHolidaysModal] = useState(false);
+  const [showDownloadsModal, setShowDownloadsModal] = useState(false);
+  const [resolvingId, setResolvingId] = useState(null);
+
+  // Targets and achievements set by Manager
+  const target = currentCoordinator.monthlyTarget || { schools: 24, colleges: 6, corporates: 4, materialKg: 3500, students: 1200 };
+  const achieved = currentCoordinator.achieved || { schools: 19, colleges: 5, corporates: 3, materialKg: 2840, students: 960 };
+
+  const kgPercent = Math.round((achieved.materialKg / target.materialKg) * 100);
   const schoolPercent = Math.round((achieved.schools / target.schools) * 100);
-  const studentPercent = Math.round((achieved.students / target.students) * 100);
-  const kitPercent = Math.round((achieved.kits / target.kits) * 100);
+
+  const handleResolvePending = (pendingId) => {
+    setResolvingId(pendingId);
+    setTimeout(() => {
+      resolvePendingActivity(pendingId, 'https://example.com/uploaded_acknowledgement.pdf');
+      setResolvingId(null);
+    }, 600);
+  };
 
   return (
-    <MobileLayout title="Volunteer Dashboard" role="volunteer">
-      <div className="space-y-4 pb-4">
-        {/* 1. Header Greeting & Profile Bar */}
-        <div className="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center gap-3">
+    <MobileLayout title="Coordinator Dashboard" role="coordinator">
+      <div className="space-y-3.5 pb-4">
+        {/* 1. Header Profile Summary */}
+        <div className="flex items-center justify-between bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+          <div className="flex items-center gap-2.5">
             <img
-              src={currentVolunteer.avatar}
-              alt={currentVolunteer.name}
-              className="w-11 h-11 rounded-full object-cover ring-2 ring-emerald-500/30 border border-slate-200"
+              src={currentCoordinator.avatar}
+              alt={currentCoordinator.name}
+              className="w-10 h-10 rounded-lg object-cover border border-slate-300"
             />
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-slate-500">Namaste,</span>
-                <span className="font-bold text-slate-900 text-sm">{currentVolunteer.name}</span>
+                <span className="font-bold text-slate-900 text-xs">{currentCoordinator.name}</span>
+                <span className="text-[10px] bg-teal-50 text-teal-800 font-mono font-semibold px-1.5 py-0.2 rounded border border-teal-200">
+                  {currentCoordinator.empId}
+                </span>
               </div>
-              <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-                <span>{currentVolunteer.empId}</span>
-                <span>•</span>
-                <span className="text-slate-500">{currentVolunteer.district}</span>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                {currentCoordinator.district} · {currentCoordinator.org}
               </p>
             </div>
           </div>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
-            Field Vol
-          </span>
+          <div className="text-right">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Rate</span>
+            <span className="text-xs font-bold text-teal-700 font-mono">{schoolPercent}%</span>
+          </div>
         </div>
 
-        {/* 2. Today's Attendance Status Card */}
-        <div className={`p-4 rounded-2xl border shadow-sm transition-all ${
+        {/* 2. Pending Activities Banner (PRD Requirement) */}
+        {pendingActivities && pendingActivities.length > 0 && (
+          <div className="bg-amber-50 border border-amber-300 rounded-xl p-3 shadow-2xs">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-xs font-bold text-amber-950">
+                    {pendingActivities.length} Pending Activity Form{pendingActivities.length > 1 ? 's' : ''}
+                  </h3>
+                  <p className="text-[11px] text-amber-900 mt-0.5">
+                    Collection drives executed but Acknowledgement Form / Weighbridge slip upload pending.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowPendingModal(true)}
+                className="px-2.5 py-1 bg-amber-700 hover:bg-amber-800 text-white rounded text-[11px] font-bold shrink-0 transition-colors"
+              >
+                Resolve Now
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 3. Today's Attendance Card */}
+        <div className={`p-3.5 rounded-xl border shadow-2xs ${
           punchState.isPunchedOut
             ? 'bg-slate-900 text-white border-slate-800'
             : punchState.isPunchedIn
-              ? 'bg-gradient-to-br from-emerald-700 to-emerald-900 text-white border-emerald-600 shadow-emerald-900/20'
+              ? 'bg-teal-900 text-white border-teal-800'
               : 'bg-amber-50 text-amber-950 border-amber-200'
         }`}>
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className={`w-2.5 h-2.5 rounded-full ${
-                punchState.isPunchedOut ? 'bg-slate-400' : punchState.isPunchedIn ? 'bg-emerald-300 animate-pulse' : 'bg-amber-500'
-              }`}></span>
-              <span className="text-xs font-bold uppercase tracking-wider">
-                Today's Attendance Status
-              </span>
-            </div>
-            <span className="text-[11px] font-mono opacity-80">12 Oct 2026</span>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
+              Today's Field Attendance
+            </span>
+            <span className="text-[10px] font-mono opacity-80">15-OCT-2026</span>
           </div>
 
-          <div className="flex items-center justify-between mt-3">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-extrabold tracking-tight">
+              <p className="text-base font-extrabold tracking-tight">
                 {punchState.isPunchedOut
-                  ? 'Day Completed'
+                  ? 'Day Completed (Punched Out)'
                   : punchState.isPunchedIn
-                    ? 'Punched In · Active'
-                    : 'Punch-in Pending'}
+                    ? 'Punched In · On Active Field'
+                    : 'Punch-In Required'}
               </p>
-              <p className="text-xs opacity-80 mt-0.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 inline" />
+              <p className="text-[11px] opacity-80 mt-0.5 flex items-center gap-1 font-mono">
+                <Clock className="w-3 h-3 inline" />
                 {punchState.isPunchedOut
-                  ? `Out: ${punchState.punchOutTime || '05:30 PM'} (In: ${punchState.punchInTime})`
+                  ? `In: ${punchState.punchInTime} · Out: ${punchState.punchOutTime || '05:30 PM'}`
                   : punchState.isPunchedIn
-                    ? `Time: ${punchState.punchInTime || '09:08 AM'} · Sarapaka Cluster`
-                    : 'Please punch in before visiting schools'}
+                    ? `Time: ${punchState.punchInTime || '09:04 AM'} · Sarapaka Hub`
+                    : 'Must capture geotagged selfie before field visits'}
               </p>
             </div>
 
@@ -104,178 +155,267 @@ export default function VolunteerDashboard() {
                   ? '/volunteer/punch-out'
                   : '/volunteer/punch-in'
               )}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold shadow transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold shadow-xs transition-all ${
                 punchState.isPunchedOut
                   ? 'bg-slate-800 hover:bg-slate-700 text-slate-200'
                   : punchState.isPunchedIn
-                    ? 'bg-white hover:bg-emerald-50 text-emerald-800'
-                    : 'bg-amber-600 hover:bg-amber-700 text-white'
+                    ? 'bg-white hover:bg-teal-50 text-teal-900'
+                    : 'bg-amber-700 hover:bg-amber-800 text-white'
               }`}
             >
-              {punchState.isPunchedOut ? 'View Summary' : punchState.isPunchedIn ? 'Punch Out' : 'Punch In Now'}
+              {punchState.isPunchedOut ? 'View Summary' : punchState.isPunchedIn ? 'Punch Out' : 'Punch In'}
             </button>
           </div>
         </div>
 
-        {/* 3. Monthly Target & Progress Overview */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        {/* 4. Target vs Progress Metrics (PRD: Target set by Manager) */}
+        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-2.5">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                Monthly Target vs Achievement
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                Manager Monthly Target
               </span>
-              <h3 className="text-sm font-bold text-slate-900">October 2026 Progress</h3>
+              <h3 className="text-xs font-bold text-slate-900">October 2026 Actual vs Plan</h3>
             </div>
-            <div className="text-right">
-              <span className="text-base font-extrabold text-emerald-600 font-mono">{schoolPercent}%</span>
-              <span className="text-[10px] text-slate-500 block -mt-1">Overall</span>
-            </div>
-          </div>
-
-          {/* Master Progress Bar */}
-          <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-            <div
-              className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-2.5 rounded-full transition-all duration-500"
-              style={{ width: `${schoolPercent}%` }}
-            />
-          </div>
-
-          {/* 3 Metric Mini Cards */}
-          <div className="grid grid-cols-3 gap-2 pt-1">
-            <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-              <div className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center mb-1">
-                <School className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[10px] text-slate-500 block">Schools</span>
-              <span className="text-xs font-bold text-slate-900">{achieved.schools} / {target.schools}</span>
-              <span className="text-[9px] text-emerald-600 font-semibold block">{schoolPercent}% Achieved</span>
-            </div>
-
-            <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-              <div className="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 mx-auto flex items-center justify-center mb-1">
-                <Users className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[10px] text-slate-500 block">Students</span>
-              <span className="text-xs font-bold text-slate-900">{achieved.students} / {target.students}</span>
-              <span className="text-[9px] text-blue-600 font-semibold block">{studentPercent}% Achieved</span>
-            </div>
-
-            <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-              <div className="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 mx-auto flex items-center justify-center mb-1">
-                <Package className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[10px] text-slate-500 block">Kits / Packs</span>
-              <span className="text-xs font-bold text-slate-900">{achieved.kits} / {target.kits}</span>
-              <span className="text-[9px] text-amber-600 font-semibold block">{kitPercent}% Achieved</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 4. Quick Action Grid */}
-        <div>
-          <span className="text-xs font-bold text-slate-800 mb-2 block px-1">
-            Quick Actions
-          </span>
-          <div className="grid grid-cols-2 gap-2.5">
-            <button
-              onClick={() => navigate('/volunteer/activity-select')}
-              className="p-3 bg-white hover:bg-emerald-50/50 border border-slate-200 rounded-2xl text-left shadow-xs transition-all flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                <PlusCircle className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-bold text-slate-900 text-xs block">Log Activity</span>
-                <span className="text-[10px] text-slate-500">School, Camp, Meet</span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/volunteer/calendar')}
-              className="p-3 bg-white hover:bg-blue-50/50 border border-slate-200 rounded-2xl text-left shadow-xs transition-all flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-bold text-slate-900 text-xs block">Attendance</span>
-                <span className="text-[10px] text-slate-500">Monthly Calendar</span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/volunteer/route-history')}
-              className="p-3 bg-white hover:bg-indigo-50/50 border border-slate-200 rounded-2xl text-left shadow-xs transition-all flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-bold text-slate-900 text-xs block">Route History</span>
-                <span className="text-[10px] text-slate-500">Recorded GPS Waypoints</span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/volunteer/punch-out')}
-              className="p-3 bg-white hover:bg-rose-50/50 border border-slate-200 rounded-2xl text-left shadow-xs transition-all flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                <LogOut className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-bold text-slate-900 text-xs block">Day Summary</span>
-                <span className="text-[10px] text-slate-500">Punch-out Report</span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* 5. Recent Field Activities Timeline */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-bold text-slate-900">Today's Recorded Visits</h3>
-            <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
-              {todayActivities.length} Completed
+            <span className="text-xs font-bold text-teal-800 font-mono bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+              {kgPercent}% of Kg Goal
             </span>
           </div>
 
-          {todayActivities.length === 0 ? (
-            <div className="text-center py-6 text-slate-400 text-xs">
-              No activities logged today yet. Click "Log Activity" above.
+          {/* Progress Bar for Dry Waste Kg */}
+          <div>
+            <div className="flex justify-between text-[11px] font-semibold text-slate-700 mb-1">
+              <span>Dry Material Collected & Verified</span>
+              <span className="font-mono text-teal-800">{achieved.materialKg} / {target.materialKg} Kg</span>
             </div>
-          ) : (
-            <div className="space-y-3">
-              {todayActivities.map((act) => (
-                <div
-                  key={act.id}
-                  className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start justify-between gap-3"
-                >
-                  <div className="flex items-start gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                      <School className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold text-slate-900">{act.schoolName || act.typeName}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{act.remarks}</p>
-                      <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-600">
-                        <span className="font-semibold text-emerald-700">👥 {act.studentsReached} Students</span>
-                        <span>•</span>
-                        <span>📦 {act.quantityAchieved} Kits</span>
-                      </div>
-                    </div>
+            <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+              <div
+                className="bg-teal-700 h-2 rounded-full transition-all"
+                style={{ width: `${Math.min(kgPercent, 100)}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Metric KPI Grid */}
+          <div className="grid grid-cols-4 gap-2 pt-1 border-t border-slate-100 text-center">
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[9px] font-bold text-slate-500 uppercase block">Schools</span>
+              <p className="text-xs font-extrabold text-slate-900 font-mono mt-0.5">
+                {achieved.schools}<span className="text-slate-400 text-[10px]">/{target.schools}</span>
+              </p>
+            </div>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[9px] font-bold text-slate-500 uppercase block">Colleges</span>
+              <p className="text-xs font-extrabold text-slate-900 font-mono mt-0.5">
+                {achieved.colleges}<span className="text-slate-400 text-[10px]">/{target.colleges}</span>
+              </p>
+            </div>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[9px] font-bold text-slate-500 uppercase block">Corporates</span>
+              <p className="text-xs font-extrabold text-slate-900 font-mono mt-0.5">
+                {achieved.corporates}<span className="text-slate-400 text-[10px]">/{target.corporates}</span>
+              </p>
+            </div>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[9px] font-bold text-slate-500 uppercase block">Students</span>
+              <p className="text-xs font-extrabold text-slate-900 font-mono mt-0.5">
+                {achieved.students}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. Quick Tools Navigation */}
+        <div className="grid grid-cols-4 gap-2">
+          <button
+            onClick={() => navigate('/volunteer/activity-select')}
+            className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-teal-600 transition-all text-center group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-teal-50 text-teal-700 mx-auto flex items-center justify-center mb-1 group-hover:bg-teal-700 group-hover:text-white transition-colors">
+              <Package className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] font-bold text-slate-800 block">Record Task</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/volunteer/calendar')}
+            className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-600 transition-all text-center group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 mx-auto flex items-center justify-center mb-1 group-hover:bg-blue-700 group-hover:text-white transition-colors">
+              <Calendar className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] font-bold text-slate-800 block">Calendar</span>
+          </button>
+
+          <button
+            onClick={() => setShowHolidaysModal(true)}
+            className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-amber-600 transition-all text-center group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 mx-auto flex items-center justify-center mb-1 group-hover:bg-amber-700 group-hover:text-white transition-colors">
+              <Calendar className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] font-bold text-slate-800 block">Holidays</span>
+          </button>
+
+          <button
+            onClick={() => setShowDownloadsModal(true)}
+            className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-purple-600 transition-all text-center group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 mx-auto flex items-center justify-center mb-1 group-hover:bg-purple-700 group-hover:text-white transition-colors">
+              <FolderDown className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] font-bold text-slate-800 block">Downloads</span>
+          </button>
+        </div>
+
+        {/* 6. Today's Logged Outreach */}
+        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h3 className="text-xs font-bold text-slate-900">Today's Outreach Log</h3>
+            <span className="text-[10px] text-slate-500 font-mono">{todayActivities.length} Task(s) Recorded</span>
+          </div>
+
+          <div className="space-y-2">
+            {todayActivities.map((act) => (
+              <div
+                key={act.id}
+                className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 flex items-start justify-between gap-2 text-xs"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.2 bg-teal-100 text-teal-800 rounded">
+                      {act.taskName || act.typeName || 'Activity'}
+                    </span>
+                    <span className="text-slate-400 text-[10px] font-mono">{act.time}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400 shrink-0 bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                    {act.time}
-                  </span>
+                  <h4 className="font-bold text-slate-900 mt-1 truncate">
+                    {act.entityName || act.schoolName}
+                  </h4>
+                  <p className="text-[11px] text-slate-600 mt-0.5 line-clamp-1">
+                    {act.remarks}
+                  </p>
+                  {act.quantityCollected && (
+                    <span className="inline-block mt-1 text-[10px] font-mono font-bold text-teal-800 bg-teal-50 px-1.5 py-0.2 rounded border border-teal-200">
+                      Collected: {act.quantityCollected} Kg · Verified: {act.verifiedQuantity || act.quantityCollected} Kg
+                    </span>
+                  )}
                 </div>
-              ))}
-            </div>
-          )}
+
+                <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
+                  <img src={act.photoUrl} alt="Proof" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* MODAL 1: Pending Activities List (PRD Requirement) */}
+      <Modal
+        isOpen={showPendingModal}
+        onClose={() => setShowPendingModal(false)}
+        title="Pending Activity Documentation"
+      >
+        <div className="space-y-3 text-xs">
+          <p className="text-slate-600">
+            PRD Specification: Unless the official <strong>Acknowledgement Form</strong> is uploaded, these collection drives remain open as pending activities on the coordinator & manager dashboards.
+          </p>
+
+          <div className="space-y-2.5">
+            {pendingActivities.map((item) => (
+              <div key={item.id} className="p-3 bg-amber-50/80 border border-amber-200 rounded-lg space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-amber-950 text-xs">{item.entityName}</span>
+                  <span className="text-[9px] font-bold bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded uppercase">
+                    {item.entityType}
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-700 space-y-0.5">
+                  <p>Drive Date: <strong>{item.date}</strong> · Material: <strong>{item.collectedKg} Kg</strong></p>
+                  <p>Certified Weighbridge: <strong>{item.verifiedKg} Kg</strong> ({item.franchiseName})</p>
+                  <p className="text-rose-700 font-semibold flex items-center gap-1">
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span>Missing: {item.missingItem}</span>
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  disabled={resolvingId === item.id}
+                  onClick={() => handleResolvePending(item.id)}
+                  className="w-full py-1.5 px-3 bg-teal-700 hover:bg-teal-800 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                >
+                  {resolvingId === item.id ? (
+                    <span>Uploading Form...</span>
+                  ) : (
+                    <>
+                      <UploadCloud className="w-3.5 h-3.5" />
+                      <span>Upload Signed Acknowledgement Slip</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      {/* MODAL 2: Official Holiday List (PRD Requirement) */}
+      <Modal
+        isOpen={showHolidaysModal}
+        onClose={() => setShowHolidaysModal(false)}
+        title="Official State Holiday Calendar 2026"
+      >
+        <div className="space-y-2.5 text-xs">
+          <p className="text-slate-600 text-[11px]">
+            Official state holiday schedule synchronized for Telangana and Andhra Pradesh project clusters.
+          </p>
+          <div className="divide-y divide-slate-100 border border-slate-200 rounded-lg overflow-hidden">
+            {holidays.map((h, i) => (
+              <div key={i} className="p-2.5 bg-white flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-slate-800">{h.name}</h4>
+                  <p className="text-[10px] text-slate-500">{h.dayOfWeek} · {h.type}</p>
+                </div>
+                <span className="font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
+                  {h.date}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      {/* MODAL 3: Downloads Section (PRD Requirement) */}
+      <Modal
+        isOpen={showDownloadsModal}
+        onClose={() => setShowDownloadsModal(false)}
+        title="WOW TeamPulse Downloads & Formats"
+      >
+        <div className="space-y-2 text-xs">
+          <p className="text-slate-600 text-[11px]">
+            Standard operating formats, permission templates, and acknowledgement slips to be printed and signed in the field.
+          </p>
+          <div className="space-y-2">
+            {downloads.map((doc) => (
+              <div key={doc.id} className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-slate-900 truncate">{doc.title}</h4>
+                  <p className="text-[10px] text-slate-500">{doc.category} · {doc.size}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => alert(`Simulated download of: ${doc.title}`)}
+                  className="p-1.5 bg-teal-700 text-white rounded hover:bg-teal-800 shrink-0"
+                  title="Download File"
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
     </MobileLayout>
   );
 }

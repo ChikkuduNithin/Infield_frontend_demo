@@ -3,7 +3,7 @@ import { Download, Check, FileSpreadsheet } from 'lucide-react';
 
 export default function ExportCsvButton({
   data = [],
-  filename = 'mari_report.csv',
+  filename = 'wow_teampulse_report.csv',
   label = 'Download Excel / CSV',
   className = ''
 }) {

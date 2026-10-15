@@ -1,0 +1,198 @@
+Requirements Sheet
+User flow for Coordinators and Managers
+Login- Using mobile number and password (Login valid for a week)
+Mark “Punch In”- System shall capture geotagged selfie
+Select Task
+School Visit
+Permission to Conduct ISRS Programme
+Select School Name (using search option)
+Confirmation Date Received- Select from drop down
+Yes-Choose Date & Submit- Must Upload the Consent Form signed by school for submission (Details of the school name & ISRC Programme date shall automatically appear on the coordinator calendar/ dashboard as a reminder.
+No- Choose Follow-up Date & Submit (Details of the school name & follow up date shall automatically appear on the Coordinator calendar/ dashboard as a reminder. Also, Optional “Remarks” Box shall be provided.
+Permission Denied- Fill Mandatory Remarks & Submit 
+ISRS Awareness Session
+Select School Name (using search option)
+Enter “No. of Students Participated”
+Upload “Photo of the Awareness Session”- Geotagged, and In Pdf/ Image format
+Upload “ISRC Awareness Session Acknowledgement Form”- Form shall be in Pdf/ Image form
+Optional “Remarks” Box shall be provided before the “Submit” option
+ISRC Collection Drive
+Select School Name (using search option) 
+Give option “Add Another School”- This enables that ISRC is conducted in parallel in other schools as well with help of volunteers.
+Select “ISRC Collection Drive Being Conducted By”, Self or Volunteer 
+Upload “Photos of Collection Drive” for respective schools- Geotagged, and In PDF/ IMAGE format
+Select the “Franchise for Material Collection” for respective school (using search option)
+Enter the “Quantity Collected” for respective school- In Kilograms
+Optional “Remarks” Box shall be provided before the “Submit” option
+After Submission, Select option for “Collection Drive Completed”, Yes, or No
+If “Yes”, enable options for:
+Enter “Verified Material Quantity”- In Kilograms, basis the weighbridge receipt (This quantity is always less than the Quantity collected) from franchise
+Upload “ISRC Collection Drive Acknowledgement Form- Form shall be in PDF/ IMAGE form. Unless this is not uploaded, all such instances shall be counted and appear on volunteer & manager dashboard as a pending activity.                                             
+If “No”, enable option to upload photos of “Collection Drive- Day 2” for respective schools- Geotagged, and In PDF/ IMAGE format
+Enter the “Quantity Collected” for respective schools- In Kilograms
+Optional “Remarks” Box shall be provided before the “Submit” option
+After Submission, enable options for:
+Enter “Verified Material Quantity”- In Kilograms, basis the weighbridge receipt (This quantity is always less than the Quantity collected) from franchise
+Upload “ISRC Collection Drive Acknowledgement Form- Form shall be in PDF/ IMAGE form. Unless this is not uploaded, all such instances shall be counted and appear on volunteer & manager dashboard as a pending activity
+The system shall calculate and store both:
+Quantity collected for a particular school during the ISRC drive as sum of day-1 and day-2 quantities.
+Quantity verified for a particular school during the ISRC drive as sum of day-1 and day-2 quantities.
+College Visit
+Permission to Conduct Awareness
+Select College Name (using search option)
+Confirmation Date Received- Select from drop down
+Yes-Choose Date & Submit- Must Upload the Consent Form signed by college for submission (Details of the college name & awareness programme date shall automatically appear on the coordinator calendar/ dashboard as a reminder.
+No- Choose Follow-up Date & Submit (Details of the college name & follow up date shall automatically appear on the Coordinator calendar/ dashboard as a reminder. Also, Optional “Remarks” Box shall be provided.
+Permission Denied- Fill Mandatory Remarks & Submit 
+Awareness Session in College
+Select College Name (using search option)
+Enter “No. of Students Participated”
+Upload “Photo of the Awareness Session”- Geotagged, and In PDF/ IMAGE format
+Upload “College Awareness Session Acknowledgement Form”- Form shall be in PDF/ IMAGE form
+Optional “Remarks” Box shall be provided before the “Submit” option
+Collection Drive in College
+Select College Name (using search option) 
+Give option “Add Another College”- This enables that collection drive is conducted in parallel in other colleges as well with help of volunteers.
+Select “Collection Drive Being Conducted By”, Self or Volunteer 
+Upload “Photos of Collection Drive” for respective colleges- Geotagged, and In PDF/ IMAGE format
+Select the “Franchise for Material Collection” for respective college (using search option)
+Enter the “Quantity Collected” for respective college- In Kilograms
+Optional “Remarks” Box shall be provided before the “Submit” option
+After Submission, enable options for:
+Enter “Verified Material Quantity”- In Kilograms, basis the weighbridge receipt (This quantity is always less than the Quantity collected) from franchise
+Upload “College Collection Drive Acknowledgement Form- Form shall be in PDF/ IMAGE form. Unless this is not uploaded, all such instances shall be counted and appear on volunteer & manager dashboard as a pending activity
+The system shall calculate and store both Quantity collected & Quantity verified for a particular college during the collection drive.
+Corporate Visit
+Permission to Conduct Awareness
+Select Corporate Name (using search option)
+Confirmation Date Received- Select from drop down
+Yes-Choose Date & Submit- Must Upload the Consent Form signed by corporate for submission (Details of the corporate name & awareness programme date shall automatically appear on the coordinator calendar/ dashboard as a reminder.
+No- Choose Follow-up Date & Submit (Details of the corporate name & follow up date shall automatically appear on the Coordinator calendar/ dashboard as a reminder. Also, Optional “Remarks” Box shall be provided.
+Permission Denied- Fill Mandatory Remarks & Submit 
+Awareness Session in Corporate
+Select Corporate Name (using search option)
+Enter “No. of Employees Participated”
+Upload Photo of the Awareness Session- Geotagged, and In PDF/ IMAGE format
+Upload Corporate Awareness Session Acknowledgement Form- Form shall be in PDF/ IMAGE form
+Optional “Remarks” Box shall be provided before the “Submit” option
+Collection Drive in Corporate
+Select Corporate Name (using search option) 
+Give option “Add Another Corporate”- This enables that collection is conducted in parallel in other corporates as well with help of volunteers.
+Select “Collection Drive Being Conducted By”, Self or Volunteer 
+Upload “Photos of Collection Drive” for respective corporates- Geotagged, and In PDF/ IMAGE format
+Select the “Franchise for Material Collection” for respective corporates (using search option)
+Enter the “Quantity Collected” for respective corporates - In Kilograms
+Optional “Remarks” Box shall be provided before the “Submit” option
+After Submission, enable options for:
+Enter “Verified Material Quantity”- In Kilograms, basis the weighbridge receipt (This quantity is always less than the Quantity collected) from franchise
+Upload “Corporate Collection Drive Acknowledgement Form- Form shall be in PDF/ IMAGE form. Unless this is not uploaded, all such instances shall be counted and appear on volunteer & manager dashboard as a pending activity
+The system shall calculate and store both Quantity collected & Quantity verified for a particular corporate during the collection drive.
+Household Propagation
+Select “Municipality”
+Enter “No. of household Covered”
+Upload “Photos of the Register Book”- Geotagged, and In PDF/ IMAGE format
+Optional “Remarks” Box shall be provided before the “Submit” option
+Office Visits
+Select:
+Visiting NGO Office for Meetings
+Visiting NGO office for Office Work
+Visiting ITC Office for meeting
+Visit to CRP/ MRF for Office Work
+Others
+Provide “Remarks” Box before the “Submit” option
+Other Activities
+Select:
+Community Engagement Activities
+Student Engagement activates
+Others
+Provide “Remarks” Box before the “Submit” option
+Mark “Punch Out”- System shall capture geotagged selfie
+Dashboards/ Modules
+Roles
+Features/ Details Needed
+Coordinator
+Shall be able to see holiday list
+Shall be able to see Monthly Target set by Managers
+Shall be able to see the Progress (Actual vs Plan)
+Shall be able to see No. of pending activities (List to be opened when clicked)
+Shall be able to see his route map
+Shall be able to see the calendar with:
+Attendance- Present/ Absent/ half day/ full day
+Completed Activities in the past
+Planned Activities for Today & Future
+Calander shall include colour codes for: Today, Holiday, Full day, Half Day, Absent, Leave 
+Raise Correction Request under the following categories:
+Missed punch in/ out
+Changing Absent to Leave (Basis the pre-approval taken from manager)
+Option to upload Leave approval (in PDF/ IMAGE format) shall be made mandatory in this case.
+Access files in “Downloads” Section
+Access individual reports (No. of schools/ colleges covered for awareness/ collection, Material collected, and Monthly attendance report in PDF/ IMAGE format etc).
+Manager
+Manage Database for Schools, Colleges, and Corporates etc. in the state they operate.
+Shall be able to see holiday list
+Shall be able to set Monthly Targets
+Shall be able to see individual coordinator level Progress (Actual vs Plan) as well as overall team progress
+Shall be able to see individual coordinator level pending activities (total no, List to be opened when clicked) as well as overall count/ list of pending activities
+Shall be able to see coordinator level route map
+Shall be able to see his/ her own as well as coordinator level calendar with:
+Attendance- Present/ Absent/ half day/ full day
+Completed Activities in the past
+Planned Activities for Today & Future
+Calander shall include colour codes for: Today, Holiday, Full day, Half Day, Absent, Leave, corrected attendance 
+Approve Correction Request by coordinators as well as raise own requests under the following categories:
+Missed punch in/ out
+Changing Absent to Leave (Basis the pre-approval taken from manager)
+Option to upload Leave approval (in PDF/ IMAGE format) shall be made mandatory in this case.
+Shall be able to see the NGO Compliance tracker
+Access files in “Downloads” Section- standard formats to be used across all NGOs
+Access Reports of related to their team members
+NGO Admin
+Manage Database for Employees
+Manage franchise database- Add, remove, and modify.
+Assign roles to employees
+Update holiday list
+Set Monthly Target
+See list of employees
+Shall be able to see individual coordinator level Progress (Actual vs Plan) as well as overall team progress
+Shall be able to see individual coordinator level pending activities (total no, List to be opened when clicked) as well as overall count/ list of pending activities
+Shall be able to see coordinator level route map
+Shall be able to see individual coordinator level calendar and manager calendar with:
+Attendance- Present/ Absent/ half day/ full day
+Completed Activities in the past
+Planned Activities for Today & Future
+Approve Correction Request by manager under the following categories:
+Missed punch in/ out
+Changing Absent to Leave (Basis the pre-approval taken from manager)
+Shall be able to see the NGO Compliance tracker
+Access files in “Downloads” Section
+Access Reports of related to their team 
+WoW Admin
+Manage NGOs- Add, Modify, Remove NGOs
+Assign states to NGOs
+Shall be able to see NGO level holiday list, coordinators/ manager details, schools/ colleges/ corporates etc.
+Shall be able to see individual NGO level dashboards for all the NGOs including their targets, performance etc.
+Track Consolidated Regulatory Compliance related to NGOs- Renewal of certificates, licenses etc. and highlight potential non-conformities.
+Manage files in “Downloads” Section
+Access NGO/ individual coordinator level Reports
+Reports Section:
+Roles
+Reports
+Coordinator
+Download Monthly Calendar in PDF format with attendance marked in colour
+Download Day wise list of activities completed & pending during the selected date range
+Download list of schools/ colleges/ corporates/ households etc. covered, students/ people/ employees educated, and material collected etc. during the selected date range
+Manager
+Download list of schools/ colleges/ corporates etc. from data base- Location wise (fields present in the data base for a particular category shall be added in dropdown menu)- Restricted to the state they operate
+Download Monthly Calendar in PDF format with attendance marked in colour- for self as well as coordinator
+Download Day wise list of activities completed & pending during the selected date range- for self as well as coordinator (individual coordinator level and consolidated as well)
+Download list of schools/ colleges/ corporates/ households etc. covered, students/ people/ employees educated, and material collected etc. during the selected date range (individual coordinator level and consolidated data as well)
+NGO Admin
+Download list of schools/ colleges/ corporates etc. from data base- Location wise (fields present in the data base for a particular category shall be added in dropdown menu)- Restricted to the state they operate
+Download Monthly Calendar in PDF format with attendance marked in colour- for coordinator as well as manager
+Download Day wise list of activities completed & pending during the selected date range- for coordinator as well as manager (individual coordinator level and consolidated as well)
+Download list of schools/ colleges/ corporates/ households etc. covered, students/ people/ employees educated, and material collected etc. during the selected date range (coordinator/ manager level as well as consolidated data)
+WoW Admin
+Download list of schools/ colleges/ corporates etc. from data base- Location wise (fields present in the data base for a particular category shall be added in dropdown menu)- Not restricted to the state. Any state they shall choose. 
+Download Monthly Calendar in PDF format with attendance marked in colour- for coordinator as well as manager
+Download Day wise list of activities completed & pending during the selected date range- for coordinator as well as manager (individual coordinator level and consolidated as well)
+Download list of schools/ colleges/ corporates/ households etc. covered, students/ people/ employees educated, and material collected etc. during the selected date range (individual NGO/ coordinator/ manager level as well as consolidated data)

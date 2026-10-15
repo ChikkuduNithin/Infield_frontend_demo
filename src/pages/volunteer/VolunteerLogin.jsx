@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDemo } from '../../context/DemoContext';
 import MobileLayout from '../../layouts/MobileLayout';
-import { Lock, User, Eye, EyeOff, CheckCircle2, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { Lock, Phone, Eye, EyeOff, ArrowRight, ShieldCheck, Recycle } from 'lucide-react';
 
 export default function VolunteerLogin() {
   const navigate = useNavigate();
-  const { currentVolunteer, setActiveRole } = useDemo();
+  const { currentCoordinator, setActiveRole } = useDemo();
 
-  const [empId, setEmpId] = useState(currentVolunteer.empId);
+  const [mobileNumber, setMobileNumber] = useState(currentCoordinator.phone || '9848012345');
   const [password, setPassword] = useState('demo1234');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberWeek, setRememberWeek] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -19,8 +19,8 @@ export default function VolunteerLogin() {
     e.preventDefault();
     setError('');
 
-    if (!empId.trim()) {
-      setError('Please enter your Employee ID');
+    if (!mobileNumber.trim() || mobileNumber.length < 10) {
+      setError('Please enter a valid 10-digit registered mobile number');
       return;
     }
     if (!password.trim()) {
@@ -31,57 +31,69 @@ export default function VolunteerLogin() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setActiveRole('volunteer');
+      setActiveRole('coordinator');
       navigate('/volunteer/dashboard');
-    }, 600);
+    }, 500);
   };
 
   const handleQuickFill = () => {
-    setEmpId(currentVolunteer.empId);
-    setPassword('mari@field2026');
+    setMobileNumber(currentCoordinator.phone);
+    setPassword('wow@field2026');
   };
 
   return (
-    <MobileLayout title="Field Login" hideBottomNav={true} showBack={false} role="volunteer">
-      <div className="flex flex-col justify-between min-h-[640px] pt-4 pb-2 px-1">
+    <MobileLayout title="Coordinator Sign-In" hideBottomNav={true} showBack={false} role="coordinator">
+      <div className="flex flex-col justify-between min-h-[640px] pt-3 pb-2 px-1">
         <div>
           {/* Header & Logo */}
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-700 to-emerald-500 mx-auto flex items-center justify-center text-white font-extrabold text-2xl shadow-lg shadow-emerald-600/30 mb-3">
-              M
+          <div className="text-center mb-5">
+            <div className="w-14 h-14 rounded-xl bg-teal-800 mx-auto flex items-center justify-center text-white mb-2.5 shadow-sm border border-teal-700">
+              <Recycle className="w-8 h-8 text-teal-300" />
             </div>
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">MARI Field Monitor</h2>
-            <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
-              Modern Architect Rural India in partnership with <span className="font-semibold text-slate-700">ITC Mission Sunehra Kal</span>
+            <h2 className="text-lg font-bold text-slate-900 tracking-tight">WOW TeamPulse</h2>
+            <p className="text-xs text-slate-600 mt-0.5">
+              ITC WoW (Well-being Out of Waste) Field Operations
             </p>
+            <span className="inline-block mt-1 text-[10px] font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+              Field Coordinator Authentication
+            </span>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <form onSubmit={handleLogin} className="space-y-3.5 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
             {error && (
-              <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <span>{error}</span>
+              <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                {error}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">Employee ID</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Registered Mobile Number *
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                  <User className="w-4 h-4" />
+                  <Phone className="w-4 h-4" />
+                </div>
+                <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none text-slate-500 font-medium text-xs">
+                  +91
                 </div>
                 <input
-                  type="text"
-                  value={empId}
-                  onChange={(e) => setEmpId(e.target.value)}
-                  placeholder="e.g. MARI-VOL-101"
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-mono focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all"
+                  type="tel"
+                  maxLength={10}
+                  value={mobileNumber}
+                  onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
+                  placeholder="98480 12345"
+                  className="w-full pl-16 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 font-mono font-medium focus:bg-white focus:border-teal-600 focus:ring-1 focus:ring-teal-600 outline-none transition-all"
                 />
               </div>
+              <p className="text-[10px] text-slate-500 mt-1">
+                PRD spec: Login authorized for 7-day field validity
+              </p>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">Password</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Password *</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
@@ -91,7 +103,7 @@ export default function VolunteerLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all"
+                  className="w-full pl-9 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:border-teal-600 focus:ring-1 focus:ring-teal-600 outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -103,78 +115,67 @@ export default function VolunteerLogin() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs pt-1">
-              <label className="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
+            <div className="flex items-center justify-between text-xs pt-0.5">
+              <label className="flex items-center gap-1.5 text-slate-600 cursor-pointer select-none">
                 <input
                   type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5 border-slate-300"
+                  checked={rememberWeek}
+                  onChange={(e) => setRememberWeek(e.target.checked)}
+                  className="rounded text-teal-700 focus:ring-teal-600 w-3.5 h-3.5 border-slate-300"
                 />
-                <span>Remember ID</span>
+                <span className="text-[11px]">Keep active for 1 week</span>
               </label>
               <button
                 type="button"
-                onClick={() => alert('Demo prototype: password recovery simulated.')}
-                className="text-emerald-700 font-medium hover:underline text-[11px]"
+                onClick={() => alert('Simulated: OTP sent to coordinator registered mobile for verification.')}
+                className="text-teal-800 font-semibold hover:underline text-[11px]"
               >
-                Forgot Password?
+                OTP Login
               </button>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98] mt-2"
+              className="w-full py-2.5 px-4 bg-teal-700 hover:bg-teal-800 text-white rounded-lg text-xs font-bold shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.98] mt-2"
             >
               {loading ? (
-                <span>Signing In...</span>
+                <span>Authenticating...</span>
               ) : (
                 <>
-                  <span>Sign In as Volunteer</span>
+                  <span>Sign In as Coordinator</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Demo Account Credentials Callout */}
-          <div className="mt-4 p-3 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl">
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
-                <div>
-                  <h4 className="text-xs font-bold text-emerald-950">Volunteer Demo Account</h4>
-                  <p className="text-[11px] text-emerald-800 mt-0.5 font-mono">
-                    ID: <strong>MARI-VOL-101</strong> (Rajesh Kumar)
-                  </p>
-                </div>
-              </div>
+          {/* Quick Demo Credentials */}
+          <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                Demo Account
+              </span>
               <button
                 type="button"
                 onClick={handleQuickFill}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-700 text-white rounded-lg text-[10px] font-semibold hover:bg-emerald-800 transition-colors shadow-xs"
+                className="text-[10px] text-teal-800 font-bold hover:underline"
               >
-                <Sparkles className="w-3 h-3" />
                 Auto-fill
               </button>
+            </div>
+            <div className="text-[11px] text-slate-700 space-y-0.5 font-mono">
+              <p>Mobile: <strong>{currentCoordinator.phone}</strong></p>
+              <p>Coordinator: {currentCoordinator.name} ({currentCoordinator.empId})</p>
+              <p>Cluster: {currentCoordinator.district}</p>
             </div>
           </div>
         </div>
 
-        {/* Footer info */}
-        <div className="text-center pt-4">
-          <p className="text-[10px] text-slate-400">
-            Internal Field Monitoring App v1.4.0 · Static Prototype
-          </p>
-          <div className="flex justify-center gap-3 mt-1.5">
-            <button
-              onClick={() => navigate('/manager/login')}
-              className="text-[11px] text-blue-600 hover:underline font-medium"
-            >
-              Switch to Manager Login →
-            </button>
-          </div>
+        {/* Footer */}
+        <div className="text-center text-[10px] text-slate-500 pt-3 border-t border-slate-200">
+          <p>ITC WoW Project · Mission Sunehra Kal & MARI</p>
+          <p className="mt-0.5 text-slate-400">Strictly for Authorized Field Personnel Only</p>
         </div>
       </div>
     </MobileLayout>

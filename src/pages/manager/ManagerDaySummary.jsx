@@ -12,22 +12,25 @@ import {
   Filter,
   Clock,
   MapPin,
-  ChevronRight
+  ChevronRight,
+  AlertCircle,
+  Building,
+  GraduationCap
 } from 'lucide-react';
 
 export default function ManagerDaySummary() {
-  const { users, todayActivities } = useDemo();
+  const { pendingActivities } = useDemo();
   const [selectedDate, setSelectedDate] = useState('2026-10-12');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Sample volunteer day roll-call
+  // Sample coordinator day roll-call
   const rollCall = [
-    { empId: "MARI-VOL-101", name: "Rajesh Kumar", status: "Present", punchIn: "09:08 AM", punchOut: "In Progress", schools: 2, students: 82, location: "Sarapaka" },
-    { empId: "MARI-VOL-102", name: "Priya Sharma", status: "Present", punchIn: "09:15 AM", punchOut: "In Progress", schools: 1, students: 44, location: "Nelakondapalli" },
-    { empId: "MARI-VOL-103", name: "Suresh Babu", status: "Present", punchIn: "08:55 AM", punchOut: "In Progress", schools: 2, students: 95, location: "Burgampahad" },
-    { empId: "MARI-VOL-104", name: "K. Venkatesh", status: "Present", punchIn: "09:20 AM", punchOut: "In Progress", schools: 1, students: 38, location: "Mahabubabad" },
-    { empId: "MARI-VOL-105", name: "Sandhya Rani", status: "Leave", punchIn: "-", punchOut: "-", schools: 0, students: 0, location: "Khammam" },
-    { empId: "MARI-VOL-106", name: "M. Ashok Kumar", status: "Absent", punchIn: "-", punchOut: "-", schools: 0, students: 0, location: "Palwancha" },
+    { empId: "WOW-CRD-101", name: "Rajesh Kumar", status: "Present", punchIn: "09:08 AM", punchOut: "In Progress", schools: 2, colleges: 1, dryWasteKg: 340, pendingDocs: 1, location: "Sarapaka" },
+    { empId: "WOW-CRD-102", name: "Priya Sharma", status: "Present", punchIn: "09:15 AM", punchOut: "In Progress", schools: 1, colleges: 0, dryWasteKg: 180, pendingDocs: 0, location: "Nelakondapalli" },
+    { empId: "WOW-CRD-103", name: "Suresh Babu", status: "Present", punchIn: "08:55 AM", punchOut: "In Progress", schools: 2, colleges: 1, dryWasteKg: 420, pendingDocs: 1, location: "Burgampahad" },
+    { empId: "WOW-CRD-104", name: "K. Venkatesh", status: "Present", punchIn: "09:20 AM", punchOut: "In Progress", schools: 1, colleges: 0, dryWasteKg: 210, pendingDocs: 0, location: "Mahabubabad" },
+    { empId: "WOW-CRD-105", name: "Sandhya Rani", status: "Leave", punchIn: "-", punchOut: "-", schools: 0, colleges: 0, dryWasteKg: 0, pendingDocs: 0, location: "Khammam" },
+    { empId: "WOW-CRD-106", name: "M. Ashok Kumar", status: "Absent", punchIn: "-", punchOut: "-", schools: 0, colleges: 0, dryWasteKg: 0, pendingDocs: 0, location: "Palwancha" },
   ];
 
   const presentCount = rollCall.filter(r => r.status === 'Present').length;
@@ -35,7 +38,8 @@ export default function ManagerDaySummary() {
   const leaveCount = rollCall.filter(r => r.status === 'Leave').length;
 
   const totalSchools = rollCall.reduce((acc, c) => acc + c.schools, 0);
-  const totalStudents = rollCall.reduce((acc, c) => acc + c.students, 0);
+  const totalColleges = rollCall.reduce((acc, c) => acc + c.colleges, 0);
+  const totalKg = rollCall.reduce((acc, c) => acc + c.dryWasteKg, 0);
 
   const filteredRollCall = rollCall.filter(r =>
     r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,15 +50,15 @@ export default function ManagerDaySummary() {
     <MobileLayout title="Daily Field Summary" showBack={true} role="manager">
       <div className="space-y-4 pb-4">
         {/* Date Selector Header */}
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-blue-600" />
+            <Calendar className="w-4 h-4 text-slate-700" />
             <span className="text-xs font-semibold text-slate-700">Audit Date:</span>
           </div>
           <select
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 outline-none"
+            className="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 outline-none font-mono"
           >
             <option value="2026-10-12">Today: 12 Oct 2026</option>
             <option value="2026-10-11">11 Oct 2026 (Sunday)</option>
@@ -64,44 +68,47 @@ export default function ManagerDaySummary() {
 
         {/* Day Attendance Pills */}
         <div className="grid grid-cols-3 gap-2">
-          <div className="bg-emerald-50 border border-emerald-200 p-2.5 rounded-2xl text-center">
+          <div className="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-center">
             <span className="text-[10px] text-emerald-800 font-semibold block">Present</span>
             <span className="text-base font-extrabold text-emerald-900 font-mono">{presentCount}</span>
           </div>
-          <div className="bg-rose-50 border border-rose-200 p-2.5 rounded-2xl text-center">
+          <div className="bg-rose-50 border border-rose-200 p-2.5 rounded-xl text-center">
             <span className="text-[10px] text-rose-800 font-semibold block">Absent</span>
             <span className="text-base font-extrabold text-rose-900 font-mono">{absentCount}</span>
           </div>
-          <div className="bg-amber-50 border border-amber-200 p-2.5 rounded-2xl text-center">
+          <div className="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-center">
             <span className="text-[10px] text-amber-800 font-semibold block">On Leave</span>
             <span className="text-base font-extrabold text-amber-900 font-mono">{leaveCount}</span>
           </div>
         </div>
 
         {/* Key Metrics Card */}
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-          <h3 className="text-xs font-bold text-slate-900">Today's Cluster Deliverables</h3>
+        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-bold text-slate-900">Today's Cluster Deliverables</h3>
+            <span className="text-[10px] font-mono text-slate-500">Zonal Output</span>
+          </div>
           <div className="grid grid-cols-3 gap-2 text-center pt-1">
-            <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-              <span className="text-[10px] text-slate-500 block">Schools Visited</span>
-              <span className="text-sm font-bold text-slate-900">{totalSchools}</span>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[10px] text-slate-500 block">Schools ISRS/C</span>
+              <span className="text-sm font-bold text-slate-900 font-mono">{totalSchools}</span>
             </div>
-            <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-              <span className="text-[10px] text-slate-500 block">Students Reached</span>
-              <span className="text-sm font-bold text-blue-700">{totalStudents}</span>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[10px] text-slate-500 block">Colleges Covered</span>
+              <span className="text-sm font-bold text-slate-900 font-mono">{totalColleges}</span>
             </div>
-            <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-              <span className="text-[10px] text-slate-500 block">Activities Logged</span>
-              <span className="text-sm font-bold text-emerald-700">38</span>
+            <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <span className="text-[10px] text-slate-500 block">Dry Waste Kg</span>
+              <span className="text-sm font-bold text-teal-800 font-mono">{totalKg} kg</span>
             </div>
           </div>
         </div>
 
-        {/* Volunteer List with Status */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-2">
+        {/* Coordinator List with Status */}
+        <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden space-y-2">
           <div className="p-3 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="text-xs font-bold text-slate-900">Volunteer Attendance & Logs</h3>
-            <span className="text-[10px] text-slate-400 font-mono">{filteredRollCall.length} Tracked</span>
+            <h3 className="text-xs font-bold text-slate-900">Field Coordinator Roll-Call</h3>
+            <span className="text-[10px] text-slate-500 font-mono">{filteredRollCall.length} Active</span>
           </div>
 
           <div className="px-3 pb-2">
@@ -111,8 +118,8 @@ export default function ManagerDaySummary() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search volunteer name or ID..."
-                className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white"
+                placeholder="Search coordinator name or ID..."
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:bg-white"
               />
             </div>
           </div>
@@ -132,9 +139,14 @@ export default function ManagerDaySummary() {
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 text-xs">{vol.name}</h4>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-[10px] text-slate-500 font-mono">
                       {vol.empId} · {vol.location}
                     </p>
+                    {vol.pendingDocs > 0 && (
+                      <span className="text-[10px] text-amber-700 font-medium flex items-center gap-1 mt-0.5">
+                        <AlertCircle className="w-3 h-3" /> Slip Pending
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -150,7 +162,7 @@ export default function ManagerDaySummary() {
                   </span>
                   {vol.status === 'Present' && (
                     <span className="text-[10px] text-slate-500 font-mono block mt-0.5">
-                      In: {vol.punchIn}
+                      {vol.dryWasteKg} kg · In: {vol.punchIn}
                     </span>
                   )}
                 </div>

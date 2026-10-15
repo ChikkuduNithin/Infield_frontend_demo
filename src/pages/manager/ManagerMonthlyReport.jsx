@@ -11,72 +11,84 @@ import {
   Building,
   School,
   Users,
-  CheckCircle2
+  CheckCircle2,
+  Recycle,
+  Scale
 } from 'lucide-react';
 
 export default function ManagerMonthlyReport() {
-  const { users } = useDemo();
+  const { users, schools, colleges, corporates, pendingActivities } = useDemo();
 
   const [selectedMonth, setSelectedMonth] = useState('October 2026');
   const [selectedDistrict, setSelectedDistrict] = useState('All');
-  const [selectedActivity, setSelectedActivity] = useState('All');
+  const [reportType, setReportType] = useState('consolidated');
 
-  // Sample report records
+  // Realistic PRD report rows
   const reportRows = [
     {
-      empId: "MARI-VOL-101",
-      volunteerName: "Rajesh Kumar",
+      empId: "WOW-CRD-101",
+      coordinatorName: "Rajesh Kumar",
       district: "Bhadradri Kothagudem",
       plannedSchools: 24,
       visitedSchools: 19,
-      studentsReached: 960,
-      kitsDistributed: 380,
+      collegesVisited: 5,
+      materialCollectedKg: 2840,
+      verifiedKg: 2790,
+      studentsEducated: 960,
       attendanceRate: "94%",
-      achievementPct: "79.2%"
+      pendingForms: 2
     },
     {
-      empId: "MARI-VOL-102",
-      volunteerName: "Priya Sharma",
+      empId: "WOW-CRD-102",
+      coordinatorName: "Priya Sharma",
       district: "Khammam",
       plannedSchools: 22,
       visitedSchools: 18,
-      studentsReached: 920,
-      kitsDistributed: 350,
+      collegesVisited: 4,
+      materialCollectedKg: 2450,
+      verifiedKg: 2410,
+      studentsEducated: 920,
       attendanceRate: "91%",
-      achievementPct: "81.8%"
+      pendingForms: 1
     },
     {
-      empId: "MARI-VOL-103",
-      volunteerName: "Suresh Babu",
+      empId: "WOW-CRD-103",
+      coordinatorName: "Suresh Babu",
       district: "Bhadradri Kothagudem",
       plannedSchools: 25,
       visitedSchools: 21,
-      studentsReached: 1040,
-      kitsDistributed: 410,
+      collegesVisited: 6,
+      materialCollectedKg: 3120,
+      verifiedKg: 3080,
+      studentsEducated: 1040,
       attendanceRate: "96%",
-      achievementPct: "84.0%"
+      pendingForms: 0
     },
     {
-      empId: "MARI-VOL-104",
-      volunteerName: "K. Venkatesh",
+      empId: "WOW-CRD-104",
+      coordinatorName: "K. Venkatesh",
       district: "Mahabubabad",
       plannedSchools: 22,
       visitedSchools: 17,
-      studentsReached: 840,
-      kitsDistributed: 310,
+      collegesVisited: 3,
+      materialCollectedKg: 2280,
+      verifiedKg: 2240,
+      studentsEducated: 840,
       attendanceRate: "88%",
-      achievementPct: "77.3%"
+      pendingForms: 1
     },
     {
-      empId: "MARI-VOL-105",
-      volunteerName: "Sandhya Rani",
+      empId: "WOW-CRD-105",
+      coordinatorName: "Sandhya Rani",
       district: "Khammam",
       plannedSchools: 24,
       visitedSchools: 16,
-      studentsReached: 780,
-      kitsDistributed: 290,
+      collegesVisited: 4,
+      materialCollectedKg: 2100,
+      verifiedKg: 2060,
+      studentsEducated: 780,
       attendanceRate: "82%",
-      achievementPct: "66.7%"
+      pendingForms: 2
     }
   ];
 
@@ -85,22 +97,25 @@ export default function ManagerMonthlyReport() {
     return true;
   });
 
+  const totalKg = filteredRows.reduce((acc, curr) => acc + curr.materialCollectedKg, 0);
+  const totalVerified = filteredRows.reduce((acc, curr) => acc + curr.verifiedKg, 0);
+
   return (
-    <MobileLayout title="Monthly Report" showBack={true} role="manager">
-      <div className="space-y-4 pb-4">
+    <MobileLayout title="Manager Reports Hub" showBack={true} role="manager">
+      <div className="space-y-3 pb-4">
         {/* Month & Filter Box */}
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-2.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-semibold text-slate-700">Reporting Period:</span>
+            <div className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-teal-700" />
+              <span className="text-xs font-bold text-slate-800">Reporting Month:</span>
             </div>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 outline-none"
+              className="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-lg px-2 py-1 outline-none"
             >
-              <option value="October 2026">October 2026 (Active)</option>
+              <option value="October 2026">October 2026 (Active MTD)</option>
               <option value="September 2026">September 2026</option>
               <option value="August 2026">August 2026</option>
             </select>
@@ -108,97 +123,93 @@ export default function ManagerMonthlyReport() {
 
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
-              <label className="text-[10px] font-semibold text-slate-500 block mb-1">District</label>
+              <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">State District</label>
               <select
                 value={selectedDistrict}
                 onChange={(e) => setSelectedDistrict(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 text-xs text-slate-800 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold outline-none"
               >
-                <option value="All">All Districts</option>
+                <option value="All">All Districts (Telangana)</option>
                 <option value="Bhadradri Kothagudem">Bhadradri Kothagudem</option>
                 <option value="Khammam">Khammam</option>
                 <option value="Mahabubabad">Mahabubabad</option>
               </select>
             </div>
 
-            <div>
-              <label className="text-[10px] font-semibold text-slate-500 block mb-1">Activity Scope</label>
-              <select
-                value={selectedActivity}
-                onChange={(e) => setSelectedActivity(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 text-xs text-slate-800 outline-none"
-              >
-                <option value="All">All Activities</option>
-                <option value="school_visit">School Visits</option>
-                <option value="awareness_prog">Awareness Programs</option>
-              </select>
+            <div className="flex items-end">
+              <ExportCsvButton
+                data={filteredRows}
+                filename={`WOW_TeamPulse_Manager_${selectedMonth.replace(' ', '_')}.csv`}
+                label="Export CSV"
+              />
             </div>
           </div>
         </div>
 
-        {/* Aggregate KPI Summary Bar */}
-        <div className="grid grid-cols-3 gap-2">
-          <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs text-center">
-            <span className="text-[10px] text-slate-500 block">Planned</span>
-            <span className="text-sm font-bold text-slate-800 font-mono">117 Schools</span>
+        {/* Aggregates Banner */}
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-[10px] text-slate-500 block">Dry Waste Collected</span>
+            <span className="text-sm font-extrabold text-teal-800 font-mono">
+              {totalKg.toLocaleString()} Kg
+            </span>
           </div>
-          <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs text-center">
-            <span className="text-[10px] text-slate-500 block">Achieved</span>
-            <span className="text-sm font-bold text-emerald-700 font-mono">91 Visited</span>
+          <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-[10px] text-slate-500 block">Certified Net Weight</span>
+            <span className="text-sm font-extrabold text-blue-800 font-mono">
+              {totalVerified.toLocaleString()} Kg
+            </span>
           </div>
-          <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs text-center">
-            <span className="text-[10px] text-slate-500 block">Completion</span>
-            <span className="text-sm font-bold text-blue-700 font-mono">77.8%</span>
+          <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-[10px] text-slate-500 block">Pending Slips</span>
+            <span className="text-sm font-extrabold text-amber-700 font-mono">
+              {filteredRows.reduce((acc, c) => acc + c.pendingForms, 0)} Open
+            </span>
           </div>
         </div>
 
-        {/* Download CSV Action Card */}
-        <div className="bg-emerald-50/80 border border-emerald-200/80 p-3.5 rounded-2xl flex items-center justify-between gap-3">
-          <div>
-            <h4 className="text-xs font-bold text-emerald-950">Export Monthly Report</h4>
-            <p className="text-[11px] text-emerald-800 mt-0.5">
-              Generates formatted spreadsheet file for ITC CSR audit.
-            </p>
-          </div>
-          <ExportCsvButton
-            data={filteredRows}
-            filename={`MARI_Monthly_Report_${selectedMonth.replace(' ', '_')}.csv`}
-            label="Export CSV"
-          />
-        </div>
-
-        {/* Table of Monthly Volunteer Work */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="p-3 border-b border-slate-100 flex items-center justify-between">
-            <h3 className="text-xs font-bold text-slate-900">Volunteer Work Breakdown</h3>
-            <span className="text-[10px] text-slate-500 font-mono">{filteredRows.length} Rows</span>
+        {/* Tabular Records */}
+        <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
+            <h3 className="text-xs font-bold text-slate-900">Coordinator Performance Sheet</h3>
+            <span className="text-[10px] text-slate-500 font-mono">{filteredRows.length} Records</span>
           </div>
 
-          <div className="divide-y divide-slate-100">
+          <div className="space-y-2">
             {filteredRows.map((row) => (
-              <div key={row.empId} className="p-3 text-xs space-y-1.5 hover:bg-slate-50 transition-colors">
-                <div className="flex items-center justify-between">
+              <div key={row.empId} className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs space-y-1">
+                <div className="flex justify-between items-start">
                   <div>
-                    <span className="font-bold text-slate-900 text-xs">{row.volunteerName}</span>
-                    <span className="text-[10px] text-slate-400 font-mono ml-1.5">{row.empId}</span>
+                    <h4 className="font-bold text-slate-900">{row.coordinatorName}</h4>
+                    <span className="text-[10px] text-slate-500 font-mono">{row.empId} · {row.district}</span>
                   </div>
-                  <span className="text-xs font-bold text-emerald-700 font-mono">
-                    {row.achievementPct}
+                  <span className="text-xs font-mono font-bold text-teal-800">
+                    {row.materialCollectedKg} Kg
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-slate-500">
-                  <span>District: <strong className="text-slate-700">{row.district}</strong></span>
-                  <span>Visited: <strong>{row.visitedSchools} / {row.plannedSchools}</strong></span>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
-                  <span>Students Reached: <strong>{row.studentsReached}</strong></span>
-                  <span>Attendance: <strong className="text-blue-700">{row.attendanceRate}</strong></span>
+                <div className="flex justify-between text-[11px] text-slate-600 pt-1 border-t border-slate-200/60 font-mono">
+                  <span>Schools: {row.visitedSchools}/{row.plannedSchools}</span>
+                  <span>Colleges: {row.collegesVisited}</span>
+                  <span className={row.pendingForms > 0 ? "text-amber-800 font-bold" : "text-teal-800"}>
+                    Pending: {row.pendingForms}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* PRD Direct Downloads Links */}
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <span className="font-bold text-slate-800 uppercase tracking-wider text-[10px] block">
+            PRD Compliance Downloads Available for Manager
+          </span>
+          <p className="text-[11px] text-slate-600">
+            • Day-wise list of activities completed & pending during date range<br />
+            • Location-wise database list (Schools, Colleges, Corporates) for Telangana<br />
+            • Color-coded monthly attendance calendar in PDF format
+          </p>
         </div>
       </div>
     </MobileLayout>

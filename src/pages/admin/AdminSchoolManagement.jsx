@@ -14,21 +14,25 @@ import {
   Users,
   CheckCircle2,
   Calendar,
-  Layers
+  Layers,
+  GraduationCap,
+  Building,
+  Scale
 } from 'lucide-react';
 
 export default function AdminSchoolManagement() {
-  const { schools, addSchool, updateSchool } = useDemo();
+  const { schools, colleges, corporates, addSchool, updateSchool } = useDemo();
 
+  const [activeTab, setActiveTab] = useState('schools'); // 'schools' | 'colleges' | 'corporates'
   const [searchQuery, setSearchQuery] = useState('');
   const [districtFilter, setDistrictFilter] = useState('all');
-  const [categoryFilter, setCategoryFilter] = useState('all');
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [viewingSchool, setViewingSchool] = useState(null);
+  const [viewingItem, setViewingItem] = useState(null);
   const [editingSchool, setEditingSchool] = useState(null);
 
-  const [formData, setFormData] = useState({
+  // Form data for school
+  const [schoolForm, setSchoolForm] = useState({
     name: '',
     udise: '',
     category: 'High School (Grades 6-10)',
@@ -39,12 +43,12 @@ export default function AdminSchoolManagement() {
     phone: '',
     studentsCount: 250,
     teachersCount: 10,
-    lat: 17.6500,
-    lng: 80.8900
+    isrsStatus: 'Approved',
+    lastVisited: '12 Oct 2026'
   });
 
-  const resetForm = () => {
-    setFormData({
+  const resetSchoolForm = () => {
+    setSchoolForm({
       name: '',
       udise: '',
       category: 'High School (Grades 6-10)',
@@ -55,236 +59,369 @@ export default function AdminSchoolManagement() {
       phone: '',
       studentsCount: 250,
       teachersCount: 10,
-      lat: 17.6500,
-      lng: 80.8900
+      isrsStatus: 'Approved',
+      lastVisited: '12 Oct 2026'
     });
   };
 
   const handleOpenAdd = () => {
-    resetForm();
+    resetSchoolForm();
     setIsAddModalOpen(true);
   };
 
   const handleOpenEdit = (school) => {
     setEditingSchool(school);
-    setFormData({ ...school });
+    setSchoolForm({ ...school });
   };
 
   const handleSaveAdd = (e) => {
     e.preventDefault();
-    if (!formData.name.trim()) return alert('School name is required');
-    if (!formData.udise.trim()) return alert('UDISE code is required');
+    if (!schoolForm.name.trim()) return alert('Institution name is required');
+    if (activeTab === 'schools' && !schoolForm.udise.trim()) return alert('UDISE code is required');
 
-    addSchool(formData);
+    addSchool(schoolForm);
     setIsAddModalOpen(false);
-    resetForm();
+    resetSchoolForm();
   };
 
   const handleSaveEdit = (e) => {
     e.preventDefault();
     if (!editingSchool) return;
 
-    updateSchool(editingSchool.id, formData);
+    updateSchool(editingSchool.id, schoolForm);
     setEditingSchool(null);
-    resetForm();
+    resetSchoolForm();
   };
 
   const filteredSchools = schools.filter(s => {
     const matchesSearch =
       s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.udise.includes(searchQuery) ||
-      s.village.toLowerCase().includes(searchQuery.toLowerCase());
+      s.udise?.includes(searchQuery) ||
+      s.village?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDistrict = districtFilter === 'all' || s.district === districtFilter;
-    const matchesCat = categoryFilter === 'all' || s.category.includes(categoryFilter);
-    return matchesSearch && matchesDistrict && matchesCat;
+    return matchesSearch && matchesDistrict;
+  });
+
+  const filteredColleges = (colleges || []).filter(c => {
+    const matchesSearch =
+      c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.principal?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDistrict = districtFilter === 'all' || c.district === districtFilter;
+    return matchesSearch && matchesDistrict;
+  });
+
+  const filteredCorporates = (corporates || []).filter(cp => {
+    const matchesSearch =
+      cp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cp.contact?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDistrict = districtFilter === 'all' || cp.district === districtFilter;
+    return matchesSearch && matchesDistrict;
   });
 
   return (
     <AdminLayout
-      title="School Registry & Monitoring Index"
-      subtitle="Comprehensive geo-tagged directory of project schools under ITC Mission Sunehra Kal"
+      title="State Database: Institutional Directory"
+      subtitle="Comprehensive state registry of participating Schools (ISRS/ISRC), Colleges, and Corporate recovery partners"
     >
       <div className="space-y-5">
-        {/* Header Controls Bar */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-3 flex-1">
-            <div className="relative min-w-[240px]">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search school name, UDISE or village..."
-                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white focus:border-emerald-500"
-              />
-            </div>
-
-            <select
-              value={districtFilter}
-              onChange={(e) => setDistrictFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-xs font-medium rounded-xl px-3 py-2 outline-none text-slate-700"
+        {/* Navigation Tabs between Schools, Colleges, Corporates */}
+        <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => { setActiveTab('schools'); setSearchQuery(''); }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'schools'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
             >
-              <option value="all">All Districts</option>
-              <option value="Bhadradri Kothagudem">Bhadradri Kothagudem</option>
-              <option value="Khammam">Khammam</option>
-              <option value="Mahabubabad">Mahabubabad</option>
-            </select>
+              <School className="w-4 h-4" />
+              <span>School Database ({schools.length})</span>
+            </button>
 
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-xs font-medium rounded-xl px-3 py-2 outline-none text-slate-700"
+            <button
+              onClick={() => { setActiveTab('colleges'); setSearchQuery(''); }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'colleges'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
             >
-              <option value="all">All School Types</option>
-              <option value="High School">High Schools</option>
-              <option value="Primary School">Primary Schools</option>
-              <option value="Residential">Residential Schools</option>
-              <option value="Model School">Model Schools</option>
-            </select>
+              <GraduationCap className="w-4 h-4" />
+              <span>College Database ({(colleges || []).length})</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('corporates'); setSearchQuery(''); }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'corporates'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <Building className="w-4 h-4" />
+              <span>Corporate Database ({(corporates || []).length})</span>
+            </button>
           </div>
 
           <button
             onClick={handleOpenAdd}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all"
+            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all"
           >
-            <Plus className="w-4 h-4" />
-            <span>Register New School</span>
+            <Plus className="w-4 h-4 text-teal-400" />
+            <span>
+              {activeTab === 'schools' ? 'Register School' : activeTab === 'colleges' ? 'Add College' : 'Add Corporate'}
+            </span>
           </button>
         </div>
 
-        {/* Schools Table */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  <th className="py-3 px-4">School Name & Category</th>
-                  <th className="py-3 px-4">UDISE Code</th>
-                  <th className="py-3 px-4">District / Location</th>
-                  <th className="py-3 px-4">Headmaster Contact</th>
-                  <th className="py-3 px-4">Enrolment</th>
-                  <th className="py-3 px-4">Last Visited</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filteredSchools.map((school) => (
-                  <tr key={school.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-200">
-                          <School className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <span className="font-bold text-slate-900 block">{school.name}</span>
-                          <span className="text-[11px] text-slate-500">{school.category}</span>
-                        </div>
-                      </div>
-                    </td>
+        {/* Filter Bar */}
+        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="relative min-w-[280px]">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={`Search in ${activeTab}...`}
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:bg-white focus:border-slate-800"
+            />
+          </div>
 
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
-                        {school.udise}
-                      </span>
-                    </td>
-
-                    <td className="py-3 px-4">
-                      <span className="font-medium text-slate-800 block">{school.district}</span>
-                      <span className="text-[11px] text-slate-500">{school.village}</span>
-                    </td>
-
-                    <td className="py-3 px-4">
-                      <span className="text-slate-800 font-medium block">{school.headmaster}</span>
-                      <span className="text-[11px] text-slate-500 font-mono">{school.phone}</span>
-                    </td>
-
-                    <td className="py-3 px-4">
-                      <span className="font-bold font-mono text-slate-900">{school.studentsCount} Students</span>
-                      <span className="text-[10px] text-slate-400 block">{school.teachersCount} Teachers</span>
-                    </td>
-
-                    <td className="py-3 px-4">
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-medium bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                        <Calendar className="w-3 h-3" />
-                        {school.lastVisited}
-                      </span>
-                    </td>
-
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          onClick={() => setViewingSchool(school)}
-                          className="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors"
-                          title="View Details & GPS"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleOpenEdit(school)}
-                          className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit School"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="flex items-center gap-2">
+            <Filter className="w-3.5 h-3.5 text-slate-400" />
+            <select
+              value={districtFilter}
+              onChange={(e) => setDistrictFilter(e.target.value)}
+              className="bg-slate-50 border border-slate-200 text-xs font-medium rounded-lg px-3 py-2 outline-none text-slate-700"
+            >
+              <option value="all">All District Clusters</option>
+              <option value="Bhadradri Kothagudem">Bhadradri Kothagudem</option>
+              <option value="Khammam">Khammam</option>
+              <option value="Mahabubabad">Mahabubabad</option>
+            </select>
           </div>
         </div>
 
-        {/* View School Details Drawer Modal */}
+        {/* Table 1: School Database */}
+        {activeTab === 'schools' && (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th className="py-3 px-4">School & Type</th>
+                    <th className="py-3 px-4">UDISE Code</th>
+                    <th className="py-3 px-4">District / Mandal</th>
+                    <th className="py-3 px-4">Principal Contact</th>
+                    <th className="py-3 px-4">ISRS Permission</th>
+                    <th className="py-3 px-4">Last Drive</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredSchools.map((school) => (
+                    <tr key={school.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-800 flex items-center justify-center shrink-0 border border-slate-200">
+                            <School className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <span className="font-bold text-slate-900 block">{school.name}</span>
+                            <span className="text-[11px] text-slate-500">{school.category}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="py-3 px-4">
+                        <span className="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                          {school.udise}
+                        </span>
+                      </td>
+
+                      <td className="py-3 px-4">
+                        <span className="font-medium text-slate-800 block">{school.district}</span>
+                        <span className="text-[11px] text-slate-500">{school.village}</span>
+                      </td>
+
+                      <td className="py-3 px-4">
+                        <span className="text-slate-800 font-medium block">{school.headmaster}</span>
+                        <span className="text-[11px] text-slate-500 font-mono">{school.phone}</span>
+                      </td>
+
+                      <td className="py-3 px-4">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-200">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Granted
+                        </span>
+                      </td>
+
+                      <td className="py-3 px-4 font-mono text-slate-600">
+                        {school.lastVisited}
+                      </td>
+
+                      <td className="py-3 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => setViewingItem(school)}
+                            className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                            title="View Record"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleOpenEdit(school)}
+                            className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                            title="Edit Record"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Table 2: College Database */}
+        {activeTab === 'colleges' && (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th className="py-3 px-4">College Name</th>
+                    <th className="py-3 px-4">Category</th>
+                    <th className="py-3 px-4">District</th>
+                    <th className="py-3 px-4">Principal / NSS Lead</th>
+                    <th className="py-3 px-4">Student Strength</th>
+                    <th className="py-3 px-4">Cumulative Dry Waste</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredColleges.map((col) => (
+                    <tr key={col.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">
+                        <div className="flex items-center gap-2">
+                          <GraduationCap className="w-4 h-4 text-slate-600" />
+                          <span>{col.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-slate-700">{col.category}</td>
+                      <td className="py-3 px-4 text-slate-700">{col.district}</td>
+                      <td className="py-3 px-4">
+                        <span className="font-medium text-slate-900 block">{col.principal}</span>
+                        <span className="text-[11px] text-slate-500 font-mono">{col.phone}</span>
+                      </td>
+                      <td className="py-3 px-4 font-mono">{col.students} Students</td>
+                      <td className="py-3 px-4 font-mono font-bold text-teal-800">{col.lastRecoveryKg || 420} kg</td>
+                      <td className="py-3 px-4 text-right">
+                        <button
+                          onClick={() => setViewingItem(col)}
+                          className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Table 3: Corporate Database */}
+        {activeTab === 'corporates' && (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th className="py-3 px-4">Corporate Entity</th>
+                    <th className="py-3 px-4">Industry Sector</th>
+                    <th className="py-3 px-4">Territory</th>
+                    <th className="py-3 px-4">Facility / CSR Contact</th>
+                    <th className="py-3 px-4">Collection Schedule</th>
+                    <th className="py-3 px-4">Dry Waste MTD</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredCorporates.map((corp) => (
+                    <tr key={corp.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">
+                        <div className="flex items-center gap-2">
+                          <Building className="w-4 h-4 text-slate-600" />
+                          <span>{corp.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-slate-700">{corp.sector}</td>
+                      <td className="py-3 px-4 text-slate-700">{corp.district}</td>
+                      <td className="py-3 px-4">
+                        <span className="font-medium text-slate-900 block">{corp.contact}</span>
+                        <span className="text-[11px] text-slate-500 font-mono">{corp.phone}</span>
+                      </td>
+                      <td className="py-3 px-4 text-slate-600 font-medium">{corp.frequency}</td>
+                      <td className="py-3 px-4 font-mono font-bold text-teal-800">{corp.lastRecoveryKg || 1200} kg</td>
+                      <td className="py-3 px-4 text-right">
+                        <button
+                          onClick={() => setViewingItem(corp)}
+                          className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* View Details Modal */}
         <Modal
-          isOpen={!!viewingSchool}
-          onClose={() => setViewingSchool(null)}
-          title={viewingSchool?.name || "School Details"}
+          isOpen={!!viewingItem}
+          onClose={() => setViewingItem(null)}
+          title={viewingItem?.name || "Institution Details"}
         >
-          {viewingSchool && (
+          {viewingItem && (
             <div className="space-y-4">
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  UDISE Identification
+                  Identifier
                 </span>
-                <p className="text-base font-bold text-slate-900 font-mono">{viewingSchool.udise}</p>
-                <p className="text-xs text-slate-600">{viewingSchool.category}</p>
+                <p className="text-sm font-bold text-slate-900 font-mono">{viewingItem.udise || viewingItem.id}</p>
+                <p className="text-xs text-slate-600">{viewingItem.category || viewingItem.sector}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
                   <span className="text-[10px] text-slate-500 block">District</span>
-                  <span className="font-bold text-slate-800">{viewingSchool.district}</span>
+                  <span className="font-bold text-slate-800">{viewingItem.district}</span>
                 </div>
-                <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                  <span className="text-[10px] text-slate-500 block">Village / Mandal</span>
-                  <span className="font-bold text-slate-800">{viewingSchool.village}</span>
+                <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                  <span className="text-[10px] text-slate-500 block">Location / Mandal</span>
+                  <span className="font-bold text-slate-800">{viewingItem.village || viewingItem.location || 'Central'}</span>
                 </div>
               </div>
 
-              <div className="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs space-y-1">
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-emerald-950">Headmaster / Principal</span>
-                  <span className="text-[10px] text-emerald-700 font-mono">{viewingSchool.phone}</span>
+                  <span className="font-bold text-slate-900">Key Stakeholder</span>
+                  <span className="text-[10px] text-slate-600 font-mono">{viewingItem.phone}</span>
                 </div>
-                <p className="text-emerald-900">{viewingSchool.headmaster}</p>
-              </div>
-
-              <div className="p-3 bg-slate-900 text-white rounded-xl text-xs flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] text-slate-400 block">GPS Coordinates</span>
-                  <span className="font-mono font-bold text-emerald-400">
-                    {viewingSchool.lat}° N, {viewingSchool.lng}° E
-                  </span>
-                </div>
-                <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-1 rounded">
-                  Geo-Fence Active
-                </span>
+                <p className="text-slate-800">{viewingItem.headmaster || viewingItem.principal || viewingItem.contact}</p>
               </div>
 
               <button
-                onClick={() => setViewingSchool(null)}
-                className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold"
+                onClick={() => setViewingItem(null)}
+                className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold"
               >
                 Close View
               </button>
@@ -292,49 +429,51 @@ export default function AdminSchoolManagement() {
           )}
         </Modal>
 
-        {/* Add School Modal */}
+        {/* Add Institution Modal */}
         <Modal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
-          title="Register New School Record"
+          title="Register Institution in State Database"
         >
           <form onSubmit={handleSaveAdd} className="space-y-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">School Name *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Institution Name *</label>
               <input
                 type="text"
                 required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={schoolForm.name}
+                onChange={(e) => setSchoolForm({ ...schoolForm, name: e.target.value })}
                 placeholder="e.g. ZPHS Kothagudem Central"
-                className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white"
+                className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">UDISE Code (11 digits) *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">UDISE / Registration *</label>
                 <input
                   type="text"
                   required
-                  value={formData.udise}
-                  onChange={(e) => setFormData({ ...formData, udise: e.target.value })}
+                  value={schoolForm.udise}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, udise: e.target.value })}
                   placeholder="36210100777"
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono outline-none"
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono outline-none"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Category</label>
                 <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  value={schoolForm.category}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, category: e.target.value })}
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
                 >
                   <option value="Primary School (Grades 1-5)">Primary School</option>
                   <option value="High School (Grades 6-10)">High School</option>
-                  <option value="Model School (Grades 6-12)">Government Model School</option>
-                  <option value="Residential High School">Tribal Residential School</option>
+                  <option value="Model School (Grades 6-12)">Model School</option>
+                  <option value="Degree College">Degree College</option>
+                  <option value="Engineering College">Engineering College</option>
+                  <option value="Corporate Entity">Corporate Entity</option>
                 </select>
               </div>
             </div>
@@ -343,9 +482,9 @@ export default function AdminSchoolManagement() {
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">District</label>
                 <select
-                  value={formData.district}
-                  onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  value={schoolForm.district}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, district: e.target.value })}
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
                 >
                   <option value="Bhadradri Kothagudem">Bhadradri Kothagudem</option>
                   <option value="Khammam">Khammam</option>
@@ -353,36 +492,37 @@ export default function AdminSchoolManagement() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Village / Mandal</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Mandal / Town</label>
                 <input
                   type="text"
-                  value={formData.village}
-                  onChange={(e) => setFormData({ ...formData, village: e.target.value })}
-                  placeholder="e.g. Manuguru Mandal"
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  value={schoolForm.village}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, village: e.target.value })}
+                  placeholder="e.g. Manuguru"
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Headmaster Name</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Contact Person</label>
                 <input
                   type="text"
-                  value={formData.headmaster}
-                  onChange={(e) => setFormData({ ...formData, headmaster: e.target.value })}
-                  placeholder="Principal Name"
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  value={schoolForm.headmaster}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, headmaster: e.target.value })}
+                  placeholder="Principal / Lead"
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Contact Phone</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Mobile Phone</label>
                 <input
-                  type="text"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+91 94400 00000"
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  type="tel"
+                  maxLength={10}
+                  value={schoolForm.phone}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, phone: e.target.value })}
+                  placeholder="9440012345"
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono outline-none"
                 />
               </div>
             </div>
@@ -391,15 +531,15 @@ export default function AdminSchoolManagement() {
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold"
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow"
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold shadow-xs"
               >
-                Save School
+                Save Institution
               </button>
             </div>
           </form>
@@ -409,17 +549,17 @@ export default function AdminSchoolManagement() {
         <Modal
           isOpen={!!editingSchool}
           onClose={() => setEditingSchool(null)}
-          title={`Edit School: ${editingSchool?.name}`}
+          title={`Edit Institution: ${editingSchool?.name}`}
         >
           <form onSubmit={handleSaveEdit} className="space-y-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">School Name *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Institution Name *</label>
               <input
                 type="text"
                 required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                value={schoolForm.name}
+                onChange={(e) => setSchoolForm({ ...schoolForm, name: e.target.value })}
+                className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
               />
             </div>
 
@@ -428,17 +568,17 @@ export default function AdminSchoolManagement() {
                 <label className="block text-xs font-semibold text-slate-700 mb-1">UDISE Code</label>
                 <input
                   type="text"
-                  value={formData.udise}
-                  onChange={(e) => setFormData({ ...formData, udise: e.target.value })}
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono outline-none"
+                  value={schoolForm.udise}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, udise: e.target.value })}
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono outline-none"
                 />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">District</label>
                 <select
-                  value={formData.district}
-                  onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                  value={schoolForm.district}
+                  onChange={(e) => setSchoolForm({ ...schoolForm, district: e.target.value })}
+                  className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none"
                 >
                   <option value="Bhadradri Kothagudem">Bhadradri Kothagudem</option>
                   <option value="Khammam">Khammam</option>
@@ -451,15 +591,15 @@ export default function AdminSchoolManagement() {
               <button
                 type="button"
                 onClick={() => setEditingSchool(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold"
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow"
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold shadow-xs"
               >
-                Update School
+                Update Record
               </button>
             </div>
           </form>

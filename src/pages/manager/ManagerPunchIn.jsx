@@ -24,11 +24,11 @@ export default function ManagerPunchIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sampleLocation = {
-    name: "ITC Zonal CSR Coordination Office",
-    mandal: "Bhadrachalam Road, Bhadradri Kothagudem",
+    name: "ITC WoW Zonal Coordination Office",
+    mandal: "Sarapaka Road, Bhadradri Kothagudem",
     coords: "17.6620° N, 80.8810° E",
     accuracy: "3.5 meters (High Precision)",
-    geofenceStatus: "Headquarters Boundary Verified"
+    geofenceStatus: "Zonal Boundary Verified"
   };
 
   const handleConfirm = () => {
@@ -45,52 +45,52 @@ export default function ManagerPunchIn() {
   };
 
   return (
-    <MobileLayout title="Manager Attendance" showBack={true} role="manager">
+    <MobileLayout title="Supervisor Attendance" showBack={true} role="manager">
       <div className="space-y-4 pb-4">
         {step === 'ready' ? (
           <>
             {/* Geo-fence banner */}
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-3 flex items-start gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white shrink-0 mt-0.5">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-start gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-teal-400 shrink-0 mt-0.5">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="flex-1 text-xs">
-                <span className="font-bold text-blue-950">Manager Geo-fence Verified</span>
-                <p className="text-blue-800 text-[11px] mt-0.5">
-                  Device location matches ITC Zonal Project Office, Bhadrachalam Road.
+                <span className="font-bold text-slate-900">Supervisor GPS Geofence Verified</span>
+                <p className="text-slate-600 text-[11px] mt-0.5">
+                  Device location matches ITC WoW Zonal Office, Bhadradri Kothagudem cluster.
                 </p>
               </div>
             </div>
 
             {/* Selfie photo preview */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
               <div className="flex items-center justify-between mb-2">
                 <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <Camera className="w-4 h-4 text-blue-600" />
-                  <span>Manager Selfie Attendance</span>
+                  <Camera className="w-4 h-4 text-slate-700" />
+                  <span>Supervisor Geotagged Selfie</span>
                 </label>
-                <span className="text-[10px] text-slate-500 font-medium">Simulated Capture</span>
+                <span className="text-[10px] text-slate-500 font-mono">17.6620° N, 80.8810° E</span>
               </div>
 
-              <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-900 border-2 border-dashed border-blue-400">
+              <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-900 border border-slate-300">
                 <img
                   src={photoPreview}
-                  alt="Manager Attendance"
+                  alt="Supervisor Attendance"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-3 text-white">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-mono text-blue-300">17.6620° N, 80.8810° E</span>
-                    <span className="text-[10px] bg-black/60 px-2 py-0.5 rounded font-mono">12-OCT-2026 08:45</span>
+                    <span className="font-mono text-slate-300">17.6620° N, 80.8810° E</span>
+                    <span className="text-[10px] bg-slate-900/80 px-2 py-0.5 rounded font-mono border border-slate-700">12-OCT-2026 08:45</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Location & Time */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs space-y-3">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 mt-0.5">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div className="flex-1 text-xs">
@@ -108,7 +108,7 @@ export default function ManagerPunchIn() {
                   <span className="font-semibold text-slate-700">Monday, 12 Oct 2026</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-blue-600" />
+                  <Clock className="w-4 h-4 text-slate-700" />
                   <span className="font-bold text-slate-900 font-mono">08:45 AM</span>
                 </div>
               </div>
@@ -117,44 +117,44 @@ export default function ManagerPunchIn() {
             <button
               onClick={handleConfirm}
               disabled={isSubmitting}
-              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white rounded-2xl text-xs font-bold shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white rounded-lg text-xs font-bold shadow-xs flex items-center justify-center gap-2 transition-all"
             >
               {isSubmitting ? (
-                <span>Confirming Attendance...</span>
+                <span>Recording Supervisor Attendance...</span>
               ) : (
                 <>
-                  <CheckCircle className="w-4 h-4" />
-                  <span>Confirm Manager Punch-in</span>
+                  <CheckCircle className="w-4 h-4 text-teal-400" />
+                  <span>Confirm Supervisor Punch-In</span>
                 </>
               )}
             </button>
           </>
         ) : (
-          <div className="bg-white rounded-2xl border border-blue-200 p-5 shadow-sm text-center space-y-4 animate-fadeIn">
-            <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-600 mx-auto flex items-center justify-center ring-8 ring-blue-50">
-              <CheckCircle className="w-9 h-9" />
+          <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-700 mx-auto flex items-center justify-center ring-4 ring-emerald-50/50">
+              <CheckCircle className="w-8 h-8" />
             </div>
 
             <div>
-              <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
-                Manager Punch Verified
+              <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                Supervisor Punch Verified
               </span>
-              <h2 className="text-lg font-bold text-slate-900 mt-2">Punch-in Active</h2>
+              <h2 className="text-base font-bold text-slate-900 mt-2">Attendance Active</h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                Recorded at <span className="font-mono font-bold text-slate-800">{managerPunchState.punchInTime}</span> for Zonal Operations.
+                Logged at <span className="font-mono font-bold text-slate-800">{managerPunchState.punchInTime}</span> for Zonal Operations.
               </p>
             </div>
 
             <div className="space-y-2 pt-2">
               <button
                 onClick={() => navigate('/manager/dashboard')}
-                className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow"
+                className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition-all shadow-xs"
               >
-                Go to Manager Dashboard
+                Go to Supervisor Dashboard
               </button>
               <button
                 onClick={() => setStep('ready')}
-                className="w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-all"
+                className="w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-all"
               >
                 Re-test Punch-in Workflow
               </button>
