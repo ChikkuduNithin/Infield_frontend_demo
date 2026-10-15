@@ -11,6 +11,8 @@ import {
   INITIAL_TODAY_ACTIVITIES,
   INITIAL_PENDING_ACTIVITIES,
   INITIAL_CORRECTION_REQUESTS,
+  INITIAL_MANAGER_ATTENDANCE_OCT2026,
+  INITIAL_MANAGER_LEAVE_REQUESTS,
   OFFICIAL_HOLIDAYS_2026,
   DOWNLOAD_DOCUMENTS,
   MASTER_DATA
@@ -116,10 +118,22 @@ export const DemoProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : OFFICIAL_HOLIDAYS_2026;
   });
 
-  // Monthly calendar
+  // Monthly coordinator calendar
   const [calendarAttendance, setCalendarAttendance] = useState(() => {
     const saved = localStorage.getItem(`${STORAGE_KEY}_calendar`);
     return saved ? JSON.parse(saved) : INITIAL_ATTENDANCE_OCT2026;
+  });
+
+  // Manager attendance records (Audited & corrected by NGO Admin)
+  const [managerAttendance, setManagerAttendance] = useState(() => {
+    const saved = localStorage.getItem(`${STORAGE_KEY}_manager_attendance`);
+    return saved ? JSON.parse(saved) : INITIAL_MANAGER_ATTENDANCE_OCT2026;
+  });
+
+  // Manager leave & correction requests (Approved by NGO Admin)
+  const [managerLeaveRequests, setManagerLeaveRequests] = useState(() => {
+    const saved = localStorage.getItem(`${STORAGE_KEY}_manager_leave_requests`);
+    return saved ? JSON.parse(saved) : INITIAL_MANAGER_LEAVE_REQUESTS;
   });
 
   // Mobile Device Preview Mode: 'frame' or 'full'
@@ -181,6 +195,14 @@ export const DemoProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem(`${STORAGE_KEY}_calendar`, JSON.stringify(calendarAttendance));
   }, [calendarAttendance]);
+
+  useEffect(() => {
+    localStorage.setItem(`${STORAGE_KEY}_manager_attendance`, JSON.stringify(managerAttendance));
+  }, [managerAttendance]);
+
+  useEffect(() => {
+    localStorage.setItem(`${STORAGE_KEY}_manager_leave_requests`, JSON.stringify(managerLeaveRequests));
+  }, [managerLeaveRequests]);
 
   // Actions
   const handlePunchIn = (details) => {
@@ -352,6 +374,66 @@ export const DemoProvider = ({ children }) => {
     setFranchises(franchises.filter(f => f.id !== id));
   };
 
+  const approveManagerLeave = (requestId, decision = 'Approved', notes = '') => {
+    const req = managerLeaveRequests.find(r => r.id === requestId);
+    if (!req) return;
+
+    setManagerLeaveRequests(prev => prev.map(r => r.id === requestId ? {
+      ...r,
+      status: decision === 'Approved' ? 'Approved by NGO Admin' : 'Rejected by NGO Admin',
+      approvalNotes: notes || (decision === 'Approved' ? 'Leave regularized after reviewing documentary evidence' : 'Rejected due to inadequate explanation'),
+      approvedAt: new Date().toLocaleDateString()
+    } : r));
+
+    if (decision === 'Approved') {
+      const targetStatus = req.type.includes('Missed Punch') ? 'corrected' : 'leave';
+      setManagerAttendance(prev => prev.map(item => {
+        if (item.date === req.date || item.requestId === requestId) {
+          return {
+            ...item,
+            status: targetStatus,
+            note: `${req.type} Approved by NGO Admin (${notes || 'Regularized'})`,
+            punchIn: req.requestedPunchIn || item.punchIn || '08:45 AM',
+            punchOut: req.requestedPunchOut || item.punchOut || '06:00 PM',
+            isLeave: targetStatus === 'leave',
+            isCorrected: true
+          };
+        }
+        return item;
+      }));
+    }
+  };
+
+  const correctManagerAttendance = (date, newStatus, reason = '', punchIn = '08:45 AM', punchOut = '06:00 PM') => {
+    setManagerAttendance(prev => {
+      const exists = prev.some(item => item.date === date);
+      if (exists) {
+        return prev.map(item => item.date === date ? {
+          ...item,
+          status: newStatus,
+          note: `Corrected by NGO Admin: ${reason}`,
+          punchIn: newStatus === 'absent' || newStatus === 'leave' ? '-' : punchIn,
+          punchOut: newStatus === 'absent' || newStatus === 'leave' ? '-' : punchOut,
+          isLeave: newStatus === 'leave',
+          isAbsent: newStatus === 'absent',
+          isCorrected: true
+        } : item);
+      } else {
+        const d = new Date(date);
+        return [...prev, {
+          day: d.getDate(),
+          date,
+          dayOfWeek: d.toLocaleDateString('en-US', { weekday: 'short' }),
+          status: newStatus,
+          punchIn: newStatus === 'absent' || newStatus === 'leave' ? '-' : punchIn,
+          punchOut: newStatus === 'absent' || newStatus === 'leave' ? '-' : punchOut,
+          note: `Corrected by NGO Admin: ${reason}`,
+          isCorrected: true
+        }];
+      }
+    });
+  };
+
   const resetAllDemoData = () => {
     localStorage.clear();
     setActiveRole('coordinator');
@@ -366,6 +448,8 @@ export const DemoProvider = ({ children }) => {
     setHolidays(OFFICIAL_HOLIDAYS_2026);
     setTodayActivities(INITIAL_TODAY_ACTIVITIES);
     setCalendarAttendance(INITIAL_ATTENDANCE_OCT2026);
+    setManagerAttendance(INITIAL_MANAGER_ATTENDANCE_OCT2026);
+    setManagerLeaveRequests(INITIAL_MANAGER_LEAVE_REQUESTS);
   };
 
   return (
@@ -395,6 +479,10 @@ export const DemoProvider = ({ children }) => {
       holidays,
       downloads: DOWNLOAD_DOCUMENTS,
       calendarAttendance,
+      managerAttendance,
+      managerLeaveRequests,
+      approveManagerLeave,
+      correctManagerAttendance,
       deviceFrameMode,
       setDeviceFrameMode,
       handlePunchIn,

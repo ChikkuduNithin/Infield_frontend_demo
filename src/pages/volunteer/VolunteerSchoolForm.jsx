@@ -59,6 +59,11 @@ export default function VolunteerSchoolForm() {
   const [scheduledDate, setScheduledDate] = useState('2026-10-28');
   const [followUpDate, setFollowUpDate] = useState('2026-10-24');
   const [consentFormUploaded, setConsentFormUploaded] = useState(true);
+  const [formPhotoUploaded, setFormPhotoUploaded] = useState(true);
+  const [formPhotoPreview, setFormPhotoPreview] = useState(
+    'https://images.unsplash.com/photo-1568667256549-094345857637?w=500&auto=format&fit=crop&q=80'
+  );
+  const [validationError, setValidationError] = useState('');
 
   // 2. Awareness Session Subtask State
   const [participantsCount, setParticipantsCount] = useState('65');
@@ -117,6 +122,14 @@ export default function VolunteerSchoolForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setValidationError('');
+
+    const isPermissionTask = subTask === 'isrs_permission' || subTask === 'col_permission' || subTask === 'corp_permission';
+    if (isPermissionTask && confirmationDateReceived === 'Yes' && !formPhotoUploaded) {
+      setValidationError('Mandatory Upload Required: Please capture or attach the signed form photo before submitting.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     const currentCat = WOW_TASK_CATEGORIES.find(c => c.id === taskType);
@@ -152,6 +165,169 @@ export default function VolunteerSchoolForm() {
       setIsSuccess(true);
       setSuccessMessage(`${currentSub?.label || currentCat?.label} for ${entityName} logged successfully.`);
     }, 600);
+  };
+
+  const renderPermissionSection = (entityTypeLabel) => {
+    return (
+      <div className="space-y-3 pt-1">
+        <div>
+          <label className="block text-xs font-bold text-slate-800 mb-1">
+            Confirmation Date Received *
+          </label>
+          <select
+            value={confirmationDateReceived}
+            onChange={(e) => {
+              setConfirmationDateReceived(e.target.value);
+              setValidationError('');
+            }}
+            className="w-full py-2 px-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 font-semibold outline-none focus:border-teal-700 shadow-2xs"
+          >
+            <option value="Yes">Yes — Date Confirmed (Upload Signed Consent Form)</option>
+            <option value="No">No — Choose Follow-Up Date</option>
+            <option value="Permission Denied">Permission Denied (Mandatory Remarks)</option>
+          </select>
+        </div>
+
+        {confirmationDateReceived === 'Yes' && (
+          <div className="space-y-3 bg-teal-50/50 p-3 rounded-xl border border-teal-200">
+            {/* Calendar dropdown to choose date for yes */}
+            <div>
+              <label className="block text-xs font-bold text-teal-950 mb-1 flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-teal-700" />
+                  <span>Choose Confirmed Date (Calendar Dropdown) *</span>
+                </span>
+                <span className="text-[10px] text-teal-800 font-bold bg-teal-100 px-1.5 py-0.2 rounded border border-teal-300">
+                  Calendar Event
+                </span>
+              </label>
+              <input
+                type="date"
+                required
+                value={scheduledDate}
+                onChange={(e) => {
+                  setScheduledDate(e.target.value);
+                  setValidationError('');
+                }}
+                className="w-full py-2 px-3 bg-white border border-teal-300 rounded-lg text-xs font-mono font-bold text-slate-900 outline-none focus:border-teal-700 shadow-2xs"
+              />
+              <p className="text-[10px] text-teal-900 mt-1">
+                Event date automatically syncs to coordinator monthly planner & supervisor roll-call.
+              </p>
+            </div>
+
+            {/* Mandate option to upload form photo */}
+            <div className="space-y-2 pt-2 border-t border-teal-200/80">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-teal-950 flex items-center gap-1.5">
+                  <Camera className="w-4 h-4 text-teal-700" />
+                  <span>Upload Form Photo *</span>
+                </label>
+                <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                  * Mandatory Document
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-600">
+                Capture clear photo of signed consent letter or official approval stamp from {entityTypeLabel}.
+              </p>
+
+              {formPhotoUploaded ? (
+                <div className="bg-white p-2.5 rounded-lg border border-teal-300 flex items-center justify-between shadow-2xs">
+                  <div className="flex items-center gap-2.5 overflow-hidden">
+                    <div className="relative w-12 h-12 rounded bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
+                      <img
+                        src={formPhotoPreview}
+                        alt="Form Photo Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="truncate">
+                      <span className="font-mono text-xs font-bold text-slate-900 block truncate">
+                        Signed_Permission_Letter.jpg
+                      </span>
+                      <span className="text-[10px] text-teal-800 font-mono block">
+                        1.4 MB · High Res · Geotagged
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      Attached
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setFormPhotoUploaded(false)}
+                      className="p-1 text-slate-400 hover:text-rose-600 rounded"
+                      title="Remove attachment"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="border-2 border-dashed border-rose-300 bg-white p-3.5 rounded-lg text-center space-y-2">
+                  <UploadCloud className="w-6 h-6 text-rose-500 mx-auto" />
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Form Photo Required</p>
+                    <p className="text-[10px] text-rose-600 font-semibold">
+                      PRD Mandate: Cannot complete submission without signed form photo.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormPhotoUploaded(true);
+                      setValidationError('');
+                    }}
+                    className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-semibold inline-flex items-center gap-1.5 shadow-2xs"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-teal-400" />
+                    <span>Take Photo / Upload Document</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Dropdown to choose follow up date for no */}
+        {confirmationDateReceived === 'No' && (
+          <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-200 space-y-2">
+            <label className="block text-xs font-bold text-amber-950 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-amber-700" />
+                <span>Choose Follow-Up Date (Calendar Dropdown) *</span>
+              </span>
+              <span className="text-[10px] text-amber-900 font-bold bg-amber-100 px-1.5 py-0.2 rounded border border-amber-300">
+                Scheduled Follow-Up
+              </span>
+            </label>
+            <input
+              type="date"
+              required
+              value={followUpDate}
+              onChange={(e) => setFollowUpDate(e.target.value)}
+              className="w-full py-2 px-3 bg-white border border-amber-300 rounded-lg text-xs font-mono font-bold text-slate-900 outline-none focus:border-amber-600 shadow-2xs"
+            />
+            <p className="text-[10px] text-amber-900">
+              Follow-up reminder will automatically appear on coordinator daily planner and supervisor dashboard.
+            </p>
+          </div>
+        )}
+
+        {confirmationDateReceived === 'Permission Denied' && (
+          <div className="p-3 bg-rose-50 rounded-xl border border-rose-200 text-xs space-y-1 text-rose-900">
+            <div className="flex items-center gap-1.5 font-bold">
+              <AlertCircle className="w-4 h-4 text-rose-700" />
+              <span>Permission Denied Protocol</span>
+            </div>
+            <p className="text-[11px] text-rose-800">
+              PRD Field Rule: Detailed explanation must be entered in the Observations / Remarks field below explaining reasons given by {entityTypeLabel} leadership.
+            </p>
+          </div>
+        )}
+      </div>
+    );
   };
 
   const currentCategory = WOW_TASK_CATEGORIES.find(c => c.id === taskType);
@@ -276,66 +452,7 @@ export default function VolunteerSchoolForm() {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Confirmation Date Received *</label>
-                      <select
-                        value={confirmationDateReceived}
-                        onChange={(e) => setConfirmationDateReceived(e.target.value)}
-                        className="w-full py-2 px-2.5 bg-white border border-slate-300 rounded text-xs text-slate-900 font-semibold outline-none focus:border-teal-700"
-                      >
-                        <option value="Yes">Yes — Date Confirmed (Upload Consent Form)</option>
-                        <option value="No">No — Follow-Up Required</option>
-                        <option value="Permission Denied">Permission Denied (Mandatory Remarks)</option>
-                      </select>
-                    </div>
-
-                    {confirmationDateReceived === 'Yes' && (
-                      <div className="space-y-2 bg-teal-50/60 p-2.5 rounded-lg border border-teal-200">
-                        <div>
-                          <label className="block text-xs font-bold text-teal-950 mb-1">Scheduled ISRS Programme Date *</label>
-                          <input
-                            type="date"
-                            value={scheduledDate}
-                            onChange={(e) => setScheduledDate(e.target.value)}
-                            className="w-full py-1.5 px-2.5 bg-white border border-teal-300 rounded text-xs text-slate-900 font-mono"
-                          />
-                          <p className="text-[10px] text-teal-800 mt-1">
-                            Details will automatically sync to coordinator calendar as a reminder.
-                          </p>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-teal-950 mb-1">
-                            Upload Signed Consent Form * (PDF / Image)
-                          </label>
-                          <div className="flex items-center justify-between bg-white p-2 rounded border border-teal-300 text-xs">
-                            <span className="font-mono text-[11px] text-slate-700">ISRS_Consent_Headmaster_Signed.pdf</span>
-                            <span className="text-[10px] bg-teal-100 text-teal-800 px-1.5 py-0.5 rounded font-bold">Attached</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {confirmationDateReceived === 'No' && (
-                      <div className="space-y-2 bg-amber-50 p-2.5 rounded-lg border border-amber-200">
-                        <label className="block text-xs font-bold text-amber-950 mb-1">Choose Follow-Up Date *</label>
-                        <input
-                          type="date"
-                          value={followUpDate}
-                          onChange={(e) => setFollowUpDate(e.target.value)}
-                          className="w-full py-1.5 px-2.5 bg-white border border-amber-300 rounded text-xs text-slate-900 font-mono"
-                        />
-                        <p className="text-[10px] text-amber-900">
-                          Follow-up reminder will automatically appear on coordinator calendar/dashboard.
-                        </p>
-                      </div>
-                    )}
-
-                    {confirmationDateReceived === 'Permission Denied' && (
-                      <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-lg text-rose-900 text-xs">
-                        PRD Rule: Mandatory remarks required explaining reasons provided by school management.
-                      </div>
-                    )}
+                    {renderPermissionSection("School Headmaster")}
                   </>
                 )}
 
@@ -549,20 +666,7 @@ export default function VolunteerSchoolForm() {
                   </select>
                 </div>
 
-                {subTask === 'col_permission' && (
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Confirmation Date Received *</label>
-                    <select
-                      value={confirmationDateReceived}
-                      onChange={(e) => setConfirmationDateReceived(e.target.value)}
-                      className="w-full py-2 px-2.5 bg-white border border-slate-300 rounded text-xs text-slate-900 font-semibold"
-                    >
-                      <option value="Yes">Yes — Date Confirmed (Upload Signed Consent Form)</option>
-                      <option value="No">No — Choose Follow-Up Date</option>
-                      <option value="Permission Denied">Permission Denied (Mandatory Remarks)</option>
-                    </select>
-                  </div>
-                )}
+                {subTask === 'col_permission' && renderPermissionSection("College Principal")}
 
                 {subTask === 'col_awareness' && (
                   <div>
@@ -616,6 +720,8 @@ export default function VolunteerSchoolForm() {
                     ))}
                   </select>
                 </div>
+
+                {subTask === 'corp_permission' && renderPermissionSection("Corporate CSR / Admin")}
 
                 {subTask === 'corp_awareness' && (
                   <div>
@@ -740,6 +846,17 @@ export default function VolunteerSchoolForm() {
                 className="w-full py-1.5 px-2.5 bg-slate-50 border border-slate-300 rounded text-xs outline-none focus:border-teal-700 resize-none"
               />
             </div>
+
+            {/* Validation Error Banner */}
+            {validationError && (
+              <div className="p-3 bg-rose-50 border border-rose-300 rounded-lg text-rose-800 text-xs font-semibold flex items-start gap-2 shadow-2xs">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                <div className="space-y-0.5">
+                  <p className="font-bold text-rose-900">Submission Blocked</p>
+                  <p className="text-[11px] text-rose-800 font-medium">{validationError}</p>
+                </div>
+              </div>
+            )}
 
             {/* Submit Button */}
             <button

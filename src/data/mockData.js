@@ -845,3 +845,146 @@ export const MASTER_DATA = {
     { id: "DST-03", name: "Mahabubabad", state: "Telangana", stateId: "ST-01", activeSchools: 88, activeColleges: 8, activeCorporates: 4, coordinators: 8 }
   ]
 };
+
+// Manager Daily Attendance Records (Audited and corrected by NGO Admin)
+export const INITIAL_MANAGER_ATTENDANCE_OCT2026 = [
+  { day: 1, date: "2026-10-01", dayOfWeek: "Thu", status: "full_day", punchIn: "08:45 AM", punchOut: "06:15 PM", location: "Zonal CSR Hub", hours: 9.5, note: "Regular Supervisory Duty" },
+  { day: 2, date: "2026-10-02", dayOfWeek: "Fri", status: "holiday", punchIn: "-", punchOut: "-", location: "-", note: "Gandhi Jayanti (Gazetted Holiday)" },
+  { day: 3, date: "2026-10-03", dayOfWeek: "Sat", status: "full_day", punchIn: "08:50 AM", punchOut: "05:45 PM", location: "Kothagudem Town", hours: 8.9 },
+  { day: 4, date: "2026-10-04", dayOfWeek: "Sun", status: "sunday", isSunday: true, punchIn: "-", punchOut: "-", note: "Weekly Rest Day" },
+  { day: 5, date: "2026-10-05", dayOfWeek: "Mon", status: "full_day", punchIn: "08:40 AM", punchOut: "06:30 PM", location: "ITC Zonal Office", hours: 9.8 },
+  { day: 6, date: "2026-10-06", dayOfWeek: "Tue", status: "leave", punchIn: "-", punchOut: "-", location: "-", note: "Casual Leave (Medical emergency — Pending NGO Admin Approval)", isLeave: true, requestId: "MLR-02" },
+  { day: 7, date: "2026-10-07", dayOfWeek: "Wed", status: "full_day", punchIn: "08:55 AM", punchOut: "06:00 PM", location: "ITC Zonal Office", hours: 9.1 },
+  { day: 8, date: "2026-10-08", dayOfWeek: "Thu", status: "full_day", punchIn: "08:45 AM", punchOut: "06:10 PM", location: "Sarapaka MRF", hours: 9.4 },
+  { day: 9, date: "2026-10-09", dayOfWeek: "Fri", status: "missed_punch", punchIn: "-", punchOut: "-", location: "Bhadrachalam Agency", note: "Missed Punch: Network drop at agency plant (Pending NGO Admin Correction)", requestId: "MLR-01" },
+  { day: 10, date: "2026-10-10", dayOfWeek: "Sat", status: "full_day", punchIn: "08:50 AM", punchOut: "05:30 PM", location: "Zonal CSR Hub", hours: 8.7 },
+  { day: 11, date: "2026-10-11", dayOfWeek: "Sun", status: "sunday", isSunday: true, punchIn: "-", punchOut: "-", note: "Weekly Rest Day" },
+  { day: 12, date: "2026-10-12", dayOfWeek: "Mon", status: "full_day", punchIn: "08:45 AM", punchOut: "06:20 PM", location: "ITC Zonal Office", hours: 9.6 },
+  { day: 13, date: "2026-10-13", dayOfWeek: "Tue", status: "full_day", punchIn: "08:48 AM", punchOut: "06:05 PM", location: "Khammam Sub-hub", hours: 9.3 },
+  { day: 14, date: "2026-10-14", dayOfWeek: "Wed", status: "full_day", punchIn: "08:42 AM", punchOut: "06:15 PM", location: "ITC Zonal Office", hours: 9.5 },
+  { day: 15, date: "2026-10-15", dayOfWeek: "Thu", status: "today", punchIn: "08:45 AM", punchOut: "In Progress", location: "ITC WoW Zonal Operations Hub", isToday: true }
+];
+
+// Manager Leave and Attendance Correction Requests (Submitted to NGO Admin)
+export const INITIAL_MANAGER_LEAVE_REQUESTS = [
+  {
+    id: "MLR-01",
+    managerId: "USR-004",
+    managerName: "Vikramaditya Rao",
+    empId: "WOW-MGR-02",
+    designation: "Zonal Field Lead",
+    district: "Bhadradri Kothagudem",
+    type: "Missed Punch Correction",
+    date: "2026-10-09",
+    reason: "Conducted unexpected field audit at remote MRF site near Aswapuram. Cellular tower power outage prevented mobile punch-in timestamp.",
+    requestedPunchIn: "08:45 AM",
+    requestedPunchOut: "06:30 PM",
+    leaveSlipUrl: "MRF_Field_Inspection_Report_09Oct.pdf",
+    appliedDate: "2026-10-10",
+    status: "Pending Review",
+    supervisorName: "Rameshwar Reddy (NGO Director)"
+  },
+  {
+    id: "MLR-02",
+    managerId: "USR-004",
+    managerName: "Vikramaditya Rao",
+    empId: "WOW-MGR-02",
+    designation: "Zonal Field Lead",
+    district: "Bhadradri Kothagudem",
+    type: "Casual Leave to Approved Leave",
+    date: "2026-10-06",
+    reason: "Acute viral fever with medical prescription advised 24 hours complete rest. Pre-intimated over telephone to Executive Director.",
+    leaveSlipUrl: "Medical_Prescription_Slip_06Oct.pdf",
+    appliedDate: "2026-10-07",
+    status: "Pending Review",
+    supervisorName: "Rameshwar Reddy (NGO Director)"
+  },
+  {
+    id: "MLR-03",
+    managerId: "USR-004",
+    managerName: "Vikramaditya Rao",
+    empId: "WOW-MGR-02",
+    designation: "Zonal Field Lead",
+    district: "Bhadradri Kothagudem",
+    type: "Official Duty (OD) Approval",
+    date: "2026-10-16",
+    reason: "Attending Telangana State Pollution Control Board (TSPCB) regional consultation on dry waste EPR compliance in Hyderabad.",
+    leaveSlipUrl: "TSPCB_Official_Meeting_Notice.pdf",
+    appliedDate: "2026-10-14",
+    status: "Pending Review",
+    supervisorName: "Rameshwar Reddy (NGO Director)"
+  }
+];
+
+// Helper to generate dynamic route history for any coordinator and any date clicked on a calendar
+export const getDayRouteHistory = (dateStr, coordinatorName = "Rajesh Kumar", coordinatorId = "WOW-CRD-101") => {
+  const dateObj = new Date(dateStr);
+  const dayNum = dateObj.getDate() || 10;
+
+  // Base coordinates around Bhadradri Kothagudem / Khammam cluster
+  const latBase = 17.6500 + (dayNum % 5) * 0.008;
+  const lngBase = 80.8800 + (dayNum % 7) * 0.007;
+
+  return {
+    date: dateStr,
+    coordinatorId,
+    coordinatorName,
+    totalLocations: 5,
+    totalDistanceKm: (14.2 + (dayNum % 6) * 1.3).toFixed(1),
+    startTime: "09:05 AM",
+    endTime: "05:40 PM",
+    waypoints: [
+      {
+        id: `WP-${dayNum}-1`,
+        name: `Punch-in Base: MARI Cluster Field Office, Sarapaka`,
+        time: "09:05 AM",
+        lat: latBase,
+        lng: lngBase,
+        status: "Punch-in Geotag Verified",
+        accuracy: "3.2m High Precision",
+        activity: "Morning Geotagged Attendance Verification"
+      },
+      {
+        id: `WP-${dayNum}-2`,
+        name: `ZPHS Secondary School — Field ISRS / ISRC Drive`,
+        time: "10:35 AM",
+        lat: latBase + 0.006,
+        lng: lngBase + 0.009,
+        status: "Field Task Executed",
+        accuracy: "4.1m GPS Lock",
+        activity: `Dry waste collection & student awareness session (${240 + (dayNum * 12)} Kg collected)`
+      },
+      {
+        id: `WP-${dayNum}-3`,
+        name: `ITC WoW MRF Resource Center & Certified Weighbridge`,
+        time: "12:45 PM",
+        lat: latBase + 0.012,
+        lng: lngBase - 0.005,
+        status: "Weighbridge Checkpoint",
+        accuracy: "3.8m GPS Lock",
+        activity: `Material handover verified by franchise operator (${235 + (dayNum * 12)} Kg net certified)`
+      },
+      {
+        id: `WP-${dayNum}-4`,
+        name: `Government Junior College / Institution Visit`,
+        time: "02:50 PM",
+        lat: latBase + 0.018,
+        lng: lngBase + 0.003,
+        status: "Institutional Outreach",
+        accuracy: "4.0m GPS Lock",
+        activity: "ISRS follow-up consent signing & segregation briefing with faculty"
+      },
+      {
+        id: `WP-${dayNum}-5`,
+        name: `Evening Punch-out: Zonal Hub, Bhadrachalam Road`,
+        time: "05:40 PM",
+        lat: latBase + 0.004,
+        lng: lngBase - 0.002,
+        status: "Punch-out Recorded",
+        accuracy: "3.6m GPS Lock",
+        activity: "Daily Reconciliation, Weighbridge Slip upload & Exit Geotag"
+      }
+    ]
+  };
+};
+

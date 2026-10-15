@@ -19,19 +19,29 @@ import {
   Sparkles,
   Layers,
   CheckCircle2,
-  FileText
+  FileText,
+  CalendarCheck
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title = "Admin Management Portal", subtitle = "ITC WoW Initiative Governance" }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentAdmin, users, schools, ngos, franchises, activeRole } = useDemo();
+  const { currentAdmin, users, schools, ngos, franchises, activeRole, managerLeaveRequests = [] } = useDemo();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const isWowAdmin = activeRole === 'wow_admin';
+  const pendingLeavesCount = managerLeaveRequests.filter(r => r.status === 'Pending Review').length;
 
   const menuItems = [
     { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+    ...(!isWowAdmin ? [
+      {
+        label: "Manager Attendance & Leaves",
+        path: "/admin/dashboard",
+        icon: CalendarCheck,
+        badge: pendingLeavesCount > 0 ? `${pendingLeavesCount} Open` : undefined
+      }
+    ] : []),
     { label: "Employee Database", path: "/admin/users", icon: Users, badge: users.length },
     { label: "State Institutions", path: "/admin/schools", icon: School, badge: schools.length },
     {
